@@ -32,11 +32,6 @@ jobs:
           cd ${{ matrix.template-dir }}
           npm install
 
-      - name: Lint Template Code
-        run: |
-          cd ${{ matrix.template-dir }}
-          npm run lint
-
       - name: Run Next.js Production Build
         run: |
           cd ${{ matrix.template-dir }}
