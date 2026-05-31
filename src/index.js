@@ -2,8 +2,13 @@
 
 import * as p from "@clack/prompts";
 import color from "picocolors";
-import degit from "degit";
+import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+// Resolve the directory where this CLI package actually lives on the user's system
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function main() {
   console.clear();
@@ -46,47 +51,38 @@ async function main() {
     },
   );
 
-  // Set up target directory path
-  const targetDir = path.resolve(process.cwd(), project.name);
+  // Define local source paths (inside this CLI package folder)
+  const templateFolderName =
+    project.language === "ts" ? "next-mui-template-ts" : "next-mui-template-js";
+  const sourceTemplateDir = path.resolve(__dirname, "..", templateFolderName);
 
-  // Start the actual template download spinner
+  // Define destination paths (where the user is running the command)
+  const targetProjectDir = path.resolve(process.cwd(), project.name);
+
   const s = p.spinner();
-  s.start("Cloning the perfect Next.js + MUI foundation...");
-
-  // Define your GitHub template repository source
-  // Format: username/repo#branch
-  const branch = project.language === "ts" ? "main" : "javascript";
-
-  // 💡 REPLACE 'thatonevikash' WITH YOUR ACTUAL GITHUB USERNAME LATER
-  const repoSource = `thatonevikash/next-mui-template#${branch}`;
+  s.start("Unboxing your Next.js + MUI foundation locally...");
 
   try {
-    const emitter = degit(repoSource, {
-      cache: false,
-      force: true,
+    // Native high-speed recursive copy
+    await fs.cp(sourceTemplateDir, targetProjectDir, {
+      recursive: true,
+      filter: (src) => !src.includes("node_modules") && !src.includes(".next"),
     });
 
-    // Execute download to target folder
-    await emitter.clone(targetDir);
-    s.stop(color.green("Template downloaded successfully!"));
+    s.stop(color.green("Workspace scaffolded successfully!"));
   } catch (error) {
-    s.stop(color.red("Failed to clone template."));
-    p.note(
-      color.yellow(
-        `Ensure the repository github.com/${repoSource.split("#")[0]} exists and has a '${branch}' branch.\n\nError: ${error.message}`,
-      ),
-      "Troubleshooting:",
-    );
+    s.stop(color.red("Failed to build workspace structure."));
+    p.note(color.yellow(`Error details: ${error.message}`), "Troubleshooting:");
     process.exit(1);
   }
 
-  // Success messaging
+  // Clear instructions for the developer
   p.note(
     `${color.cyan(`cd ${project.name}`)}\n${color.cyan("npm install")}\n${color.cyan("npm run dev")}`,
     "Next Steps to Get Started:",
   );
 
-  p.outro(`✨ Your workspace is ready. Build something legendary!`);
+  p.outro(`✨ Code cleanly, sort perfectly. Built with create-next-mui!`);
 }
 
 main().catch(console.error);

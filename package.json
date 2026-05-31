@@ -21,6 +21,11 @@
   "bin": {
     "create-next-mui": "./src/index.js"
   },
+  "files": [
+    "src",
+    "next-mui-template-ts",
+    "next-mui-template-js"
+  ],
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js"
