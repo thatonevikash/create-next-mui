@@ -1,0 +1,33 @@
+{
+  "name": "create-next-mui",
+  "version": "0.0.1",
+  "description": "spin up your nextjs project with mui setup",
+  "keywords": [
+    "nextjs",
+    "mui",
+    "create-next-mui"
+  ],
+  "homepage": "https://github.com/thatonevikash/create-next-mui#readme",
+  "bugs": {
+    "url": "https://github.com/thatonevikash/create-next-mui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thatonevikash/create-next-mui.git"
+  },
+  "license": "MIT",
+  "author": "thatonevikash",
+  "type": "module",
+  "bin": {
+    "create-next-mui": "./src/index.js"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.5.0",
+    "degit": "^3.3.2",
+    "picocolors": "^1.1.1"
+  }
+}
