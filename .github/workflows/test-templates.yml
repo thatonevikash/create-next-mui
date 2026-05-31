@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           # Automatically caches npm dependencies to make subsequent runs blazing fast
           cache: "npm"
           cache-dependency-path: "./${{ matrix.template-dir }}/package.json"
