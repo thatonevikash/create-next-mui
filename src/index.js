@@ -19,11 +19,14 @@ async function main() {
       name: () =>
         p.text({
           message: "What is your project name?",
-          placeholder: "my-next-mui-app",
+          placeholder: "my-next-mui-app (or '.' for current directory)",
           validate(value) {
             if (value.length === 0) return "Project name is required!";
-            if (value.match(/[^a-zA-Z0-9-_]/g))
-              return "Keep it URL safe (no spaces or special chars)";
+
+            // ✅ Allow exactly "." otherwise apply your safe character regex
+            if (value !== "." && value.match(/[^a-zA-Z0-9-_]/g)) {
+              return "Keep it URL safe or use '.' for the current folder";
+            }
           },
         }),
       language: () =>
@@ -59,6 +62,24 @@ async function main() {
   // Define destination paths (where the user is running the command)
   const targetProjectDir = path.resolve(process.cwd(), project.name);
 
+  // If targeting current directory, make sure it's clean
+  if (project.name === ".") {
+    try {
+      const existingFiles = await fs.readdir(targetProjectDir);
+      if (existingFiles.length > 0) {
+        p.log.error(
+          color.red(
+            "The current directory is not empty! Please clear it or specify a project name.",
+          ),
+        );
+        process.exit(1);
+      }
+    } catch (err) {
+      // If the directory reading fails completely, we exit safely
+      process.exit(1);
+    }
+  }
+
   const s = p.spinner();
   s.start("Unboxing your Next.js + MUI foundation locally...");
 
@@ -85,8 +106,13 @@ async function main() {
   }
 
   // Clear instructions for the developer
+  const isCurrentDir = project.name === ".";
+  const cdInstruction = isCurrentDir
+    ? ""
+    : `${color.cyan(`cd ${project.name}`)}\n`;
+
   p.note(
-    `${color.cyan(`cd ${project.name}`)}\n${color.cyan("npm install")}\n${color.cyan("npm run dev")}`,
+    `${cdInstruction}${color.cyan("npm install")}\n${color.cyan("npm run dev")}`,
     "Next Steps to Get Started:",
   );
 
