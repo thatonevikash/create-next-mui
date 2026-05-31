@@ -66,7 +66,15 @@ async function main() {
     // Native high-speed recursive copy
     await fs.cp(sourceTemplateDir, targetProjectDir, {
       recursive: true,
-      filter: (src) => !src.includes("node_modules") && !src.includes(".next"),
+      filter: (src) => {
+        const targetName = path.basename(src);
+        return (
+          targetName !== "node_modules" &&
+          targetName !== ".next" &&
+          targetName !== "out" &&
+          targetName !== "build"
+        );
+      },
     });
 
     s.stop(color.green("Workspace scaffolded successfully!"));
