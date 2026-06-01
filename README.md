@@ -1,5 +1,9 @@
 # create-next-mui 🚀
 
+[![npm version](https://img.shields.io/npm/v/create-next-mui?style=flat&logo=npm&color=CB3837)](https://www.npmjs.com/package/create-next-mui)
+[![Next.js v19](https://img.shields.io/badge/Next.js-v19-000000?style=flat&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![MUI v9](https://img.shields.io/badge/MUI-v9-007FFF?style=flat&logo=mui&logoColor=white)](https://mui.com/)
+
 A blazing-fast, interactive CLI tool to instantly scaffold production-ready **Next.js** applications pre-configured with **Material UI (MUI)**, robust theme providers, and an elite architectural linting layout.
 
 Stop wasting time wiring up Emotion caches, Next.js App Router layout configs, or sorting your imports manually. Launch your next project perfectly in under 10 seconds.
@@ -12,6 +16,10 @@ You don't need to install anything globally. Just run the following command in y
 
 ```bash
 npx create-next-mui
+
+# or 
+
+npm init next-mui
 ```
 
 The interactive prompt engine (powered by `@clack/prompts`) will guide you through naming your project and selecting your preferred flavor.
