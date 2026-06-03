@@ -1,10 +1,6 @@
-import { Theme, Components } from "@mui/material";
-
-import type {} from "@mui/material/themeCssVarsAugmentation";
-
 // ---------------------------------------------------------------
 
-const MuiCard: Components<Theme>["MuiCard"] = {
+const MuiCard = {
   styleOverrides: {
     root: ({ theme }) => ({
       borderRadius: theme.spacing(2.5),

@@ -2,8 +2,6 @@ import "./globals.css";
 
 import { Geist, Geist_Mono } from "next/font/google";
 
-import type { Metadata } from "next";
-
 import { ThemeProvider } from "@/theme/theme-provider";
 
 // ---------------------------------------------------------------
@@ -18,16 +16,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "create-next-mui",
-  description: "create your nextjs project with mui setup",
+  description: "The fastest way to scaffold Nextjs + MUI",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }) {
   return (
     <html
       lang="en"

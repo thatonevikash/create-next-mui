@@ -1,10 +1,6 @@
-import { Theme, Components } from "@mui/material";
-
-import type {} from "@mui/material/themeCssVarsAugmentation";
-
 // ---------------------------------------------------------------
 
-const MuiButton: Components<Theme>["MuiButton"] = {
+const MuiButton = {
   styleOverrides: {
     root: ({ theme }) => ({
       textTransform: "unset",
