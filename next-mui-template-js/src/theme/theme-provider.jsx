@@ -7,7 +7,7 @@ import { theme } from "./create-theme";
 
 // ---------------------------------------------------------------
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({ children }) {
   return (
     <AppRouterCacheProvider>
       <MuiThemeProvider theme={theme}>

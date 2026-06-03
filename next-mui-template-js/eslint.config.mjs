@@ -18,7 +18,7 @@ const eslintConfig = defineConfig([
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "off",
       "unused-imports/no-unused-vars": [
-        "off",
+        "warn",
         {
           args: "after-used",
           argsIgnorePattern: "^_",
@@ -26,13 +26,16 @@ const eslintConfig = defineConfig([
           varsIgnorePattern: "^_",
         },
       ],
-      "perfectionist/sort-exports": [1, { order: "asc", type: "line-length" }],
+      "perfectionist/sort-exports": [
+        "warn",
+        { order: "asc", type: "line-length" },
+      ],
       "perfectionist/sort-named-imports": [
-        1,
+        "warn",
         { order: "asc", type: "line-length" },
       ],
       "perfectionist/sort-named-exports": [
-        1,
+        "warn",
         { order: "asc", type: "line-length" },
       ],
       "perfectionist/sort-imports": [
@@ -50,8 +53,6 @@ const eslintConfig = defineConfig([
             "next",
             "mui",
             "external",
-            "type",
-            "internal-types",
             "internal-lib",
             "internal-hooks",
             "internal-actions",
@@ -71,7 +72,6 @@ const eslintConfig = defineConfig([
               next: ["^next", "^next/.*", "cookies-next"],
               mui: ["^@mui/.*", "^@emotion/.*"],
               icons: ["^lucide-react$"],
-              "internal-types": ["^@/types/.*"],
               "internal-lib": ["^@/lib/.*"],
               "internal-actions": ["^@/actions/.*"],
               "internal-hooks": ["^@/hooks/.*"],
