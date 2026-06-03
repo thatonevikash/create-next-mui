@@ -1,10 +1,10 @@
 import { createTheme } from "@mui/material";
-import { components } from "./core/components";
-
-import { palette } from "./core/palette";
-import { typography } from "./core/typography";
 
 import { CONFIG } from "@/config-global";
+
+import { palette } from "./core/palette";
+import { components } from "./core/components";
+import { typography } from "./core/typography";
 
 // ---------------------------------------------------------------
 
