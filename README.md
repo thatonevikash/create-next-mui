@@ -1,3 +1,5 @@
+<img width="1420" height="308" alt="CREATE-NEXT-MUI-BANNER" src="https://github.com/user-attachments/assets/11e72fc8-6b6d-40c4-97a1-c05f7b943e02" />
+
 # create-next-mui 🚀
 
 [![npm version](https://img.shields.io/npm/v/create-next-mui?style=flat&logo=npm&color=CB3837)](https://www.npmjs.com/package/create-next-mui)
