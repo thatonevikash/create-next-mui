@@ -17,6 +17,10 @@ const MuiButton: Components<Theme>["MuiButton"] = {
             borderRadius: theme.spacing(1.5),
             color: theme.vars.palette.common.white,
             backgroundColor: theme.vars.palette.grey[900],
+            ...theme.applyStyles("dark", {
+              color: theme.vars.palette.common.black,
+              backgroundColor: theme.vars.palette.grey[100],
+            }),
           },
         },
         {
@@ -24,7 +28,11 @@ const MuiButton: Components<Theme>["MuiButton"] = {
           style: {
             borderRadius: theme.spacing(1.5),
             color: theme.vars.palette.common.black,
-            borderColor: theme.vars.palette.common.black,
+            borderColor: theme.vars.palette.grey[900],
+            ...theme.applyStyles("dark", {
+              color: theme.vars.palette.common.white,
+              borderColor: theme.vars.palette.grey[100],
+            }),
           },
         },
       ],

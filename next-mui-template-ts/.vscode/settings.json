@@ -1,6 +1,6 @@
 {
   "editor.quickSuggestions": {
-    "other": false,
+    "other": true,
     "comments": false,
     "strings": false
   }
