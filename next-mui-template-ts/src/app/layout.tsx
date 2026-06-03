@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "create-next-mui",
-  description: "create your nextjs project with mui setup",
+  description: "The fastest way to scaffold Nextjs + MUI",
 };
 
 export default function RootLayout({
