@@ -17,6 +17,10 @@ Stop wasting time wiring up Emotion caches, Next.js App Router layout configs, o
 You don't need to install anything globally. Just run the following command in your terminal:
 
 ```bash
+npx create-next-mui my-next-mui-app
+
+# or use prompts
+
 npx create-next-mui
 
 # or 
@@ -24,7 +28,7 @@ npx create-next-mui
 npm init next-mui
 ```
 
-The interactive prompt engine (powered by `@clack/prompts`) will guide you through naming your project and selecting your preferred flavor.
+Passing a project name creates that folder and uses the same name in the generated project metadata. If you omit the name, the interactive prompt engine (powered by `@clack/prompts`) will guide you through naming your project and selecting your preferred flavor.
 
 ---
 
