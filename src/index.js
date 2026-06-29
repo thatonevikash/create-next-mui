@@ -22,7 +22,8 @@ function validateProjectName(value) {
 }
 
 function getPackageName(projectName, targetProjectDir) {
-  const rawName = projectName === "." ? path.basename(targetProjectDir) : projectName;
+  const rawName =
+    projectName === "." ? path.basename(targetProjectDir) : projectName;
 
   return rawName.toLowerCase();
 }
