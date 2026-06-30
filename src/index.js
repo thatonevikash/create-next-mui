@@ -11,9 +11,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const args = process.argv.slice(2);
+const positionalArgs = args.filter(
+  (arg) => !["--yes", "-y", "--js"].includes(arg),
+);
 
-const PROJECT_NAME = args[0];
-const hasInitialProjectName = typeof PROJECT_NAME === "string";
+const PROJECT_NAME = positionalArgs[0];
+const hasInitialProjectName = PROJECT_NAME !== undefined;
 
 const hasYesFlag = args.includes("--yes") || args.includes("-y");
 const hasJsFlag = args.includes("--js");
