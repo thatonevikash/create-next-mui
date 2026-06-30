@@ -41,3 +41,26 @@ jobs:
         run: |
           cd ${{ matrix.template-dir }}
           npm run build
+
+  run-default-cli:
+    name: Run default CLI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install CLI dependencies
+        run: npm install
+
+      - name: Generate project
+        run: npx . my-app --yes
+
+      - name: Verify project was created
+        run: test -f my-app/package.json

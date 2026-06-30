@@ -10,8 +10,18 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const initialProjectName = process.argv[2];
-const hasInitialProjectName = typeof initialProjectName === "string";
+const args = process.argv.slice(2);
+const positionalArgs = args.filter(
+  (arg) => !["--yes", "-y", "--js"].includes(arg),
+);
+
+const PROJECT_NAME = positionalArgs[0];
+const hasInitialProjectName = PROJECT_NAME !== undefined;
+
+const hasYesFlag = args.includes("--yes") || args.includes("-y");
+const hasJsFlag = args.includes("--js");
+
+const DEFAULT_LANGUAGE = hasJsFlag ? "js" : "ts";
 
 function validateProjectName(value) {
   if (value.length === 0) return "Project name is required!";
@@ -60,7 +70,7 @@ async function main() {
   p.intro(color.bgBlue(color.white("  create-next-mui  ")));
 
   const projectNameError = hasInitialProjectName
-    ? validateProjectName(initialProjectName)
+    ? validateProjectName(PROJECT_NAME)
     : undefined;
 
   if (projectNameError) {
@@ -72,28 +82,30 @@ async function main() {
     {
       name: () =>
         hasInitialProjectName
-          ? Promise.resolve(initialProjectName)
+          ? Promise.resolve(PROJECT_NAME)
           : p.text({
               message: "What is your project name?",
               placeholder: "my-next-mui-app (or '.' for current directory)",
               validate: validateProjectName,
             }),
       language: () =>
-        p.select({
-          message: "Choose your language flavor:",
-          options: [
-            {
-              value: "ts",
-              label: "TypeScript (Recommended)",
-              hint: "Strict typings, clean architecture",
-            },
-            {
-              value: "js",
-              label: "JavaScript",
-              hint: "Vanilla JS configuration",
-            },
-          ],
-        }),
+        hasYesFlag
+          ? Promise.resolve(DEFAULT_LANGUAGE)
+          : p.select({
+              message: "Choose your language flavor:",
+              options: [
+                {
+                  value: "ts",
+                  label: "TypeScript (Recommended)",
+                  hint: "Strict typings, clean architecture",
+                },
+                {
+                  value: "js",
+                  label: "JavaScript",
+                  hint: "Vanilla JS configuration",
+                },
+              ],
+            }),
     },
     {
       onCancel: () => {
