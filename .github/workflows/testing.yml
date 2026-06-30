@@ -60,7 +60,7 @@ jobs:
         run: npm install
 
       - name: Generate project
-        run: npx . my-app --yes
+        run: npx create-next-mui@latest my-app --yes
 
       - name: Verify project was created
         run: test -f my-app/package.json

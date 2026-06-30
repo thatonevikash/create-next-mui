@@ -1,122 +1,209 @@
-<img width="1420" height="308" alt="CREATE-NEXT-MUI-BANNER" src="https://github.com/user-attachments/assets/11e72fc8-6b6d-40c4-97a1-c05f7b943e02" />
+<img width="1420" alt="CREATE-NEXT-MUI-BANNER" src="https://github.com/user-attachments/assets/11e72fc8-6b6d-40c4-97a1-c05f7b943e02" />
 
-# create-next-mui 🚀
+# create-next-mui
 
 [![npm version](https://img.shields.io/npm/v/create-next-mui?style=flat&logo=npm&color=CB3837)](https://www.npmjs.com/package/create-next-mui)
-[![Next.js v19](https://img.shields.io/badge/Next.js-v19-000000?style=flat&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
-[![MUI v9](https://img.shields.io/badge/MUI-v9-007FFF?style=flat&logo=mui&logoColor=white)](https://mui.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-v19-000000?style=flat&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![MUI](https://img.shields.io/badge/MUI-v9-007FFF?style=flat&logo=mui&logoColor=white)](https://mui.com/)
 
-A blazing-fast, interactive CLI tool to instantly scaffold production-ready **Next.js** applications pre-configured with **Material UI (MUI)**, robust theme providers, and an elite architectural linting layout.
+Scaffold a production-ready **Next.js + Material UI** application in seconds.
 
-Stop wasting time wiring up Emotion caches, Next.js App Router layout configs, or sorting your imports manually. Launch your next project perfectly in under 10 seconds.
+The generated project comes preconfigured with:
+
+- ⚡ Next.js App Router
+- 🎨 Material UI
+- 📦 TypeScript or JavaScript templates
+- 🧹 ESLint Flat Config
+- 📁 Scalable project structure
+
+No global installation required.
 
 ---
 
-## 🚀 Quick Start
+# Quick Start
 
-You don't need to install anything globally. Just run the following command in your terminal:
+Create a new project:
 
 ```bash
-npx create-next-mui my-next-mui-app
+npx create-next-mui my-app
+```
 
-# or use prompts
+or
 
-npx create-next-mui
-
-# or 
-
+```bash
 npm init next-mui
 ```
 
-Passing a project name creates that folder and uses the same name in the generated project metadata. If you omit the name, the interactive prompt engine (powered by `@clack/prompts`) will guide you through naming your project and selecting your preferred flavor.
-
----
-
-## ✨ Key Features
-
-- **⚡ Modern Architecture:** Built natively on top of the Next.js App Router structure.
-- **🎨 Material UI Ready:** Seamless compilation of MUI components inside Server and Client Components with pre-configured UI themes.
-- **🧩 Dual-Template Architecture:** Full support for both **TypeScript** and **JavaScript** boilerplates.
-- **🧼 Perfectionist Linting Config:** Pre-packaged with **ESLint v9 Flat Config** (`eslint.config.mjs`) utilizing `eslint-plugin-perfectionist` and `eslint-plugin-unused-imports`.
-- **📦 Pure & Lightweight:** Zero bloat. Template files are automatically stripped of development artifacts (`node_modules`, caches) before build deployment.
-
----
-
-## 📦 Choice of Flavors
-
-During the prompt sequence, you can choose between two completely separate architectures, both fine-tuned for high-performance builds:
-
-1. **TypeScript Template (`next-mui-template-ts`)** – Out-of-the-box strong typing, custom theme module augmentations, and strict `@typescript-eslint` checking.
-2. **JavaScript Template (`next-mui-template-js`)** – Lightweight, clean vanilla ES modern syntax with optimized configuration overhead.
-
----
-
-## 📐 Generated Project Structure
-
-No matter which path you choose, `create-next-mui` prints out an organized, production-grade layout optimized for scalability:
-
-```text
-my-awesome-app/
-├── src/
-│   ├── app/
-│   │   ├── layout.js/ts      # Handles App Router initialization & MUI Cache Provider
-│   │   └── page.js/ts        # Pre-built home view utilizing responsive MUI layouts
-│   ├── components/           # Reusable global presentation components
-│   └── theme/
-│       ├── index.js/ts       # Deep theme customization (palette, typography, overrides)
-│       └── theme-provider.js # Keeps layout tree hydrations isolated and performant
-├── eslint.config.mjs         # Elite natural line-length linting layout
-├── next.config.js            # Configured optimization vectors
-├── package.json
-└── README.md
-
-```
-
----
-
-## 🎨 Elite Linting Layout (Perfectionist Grouping)
-
-Both boilerplate environments contain a fine-tuned, strict importing arrangement rule framework using `line-length` natural alpha sorting. Your files are automatically linted and organized cleanly on save down this architectural chain:
-
-1. **React Core APIs** (`react`)
-2. **Next.js Framework Hooks & Context** (`next/*`)
-3. **Material UI Design Tokens & Engine** (`@mui/*`, `@emotion/*`)
-4. **External Third-Party Libraries**
-5. **Internal Layer Architectures** (`@/types`, `@/lib`, `@/components`, `@/theme`)
-
-Say goodbye to disorganized, messy blocks of import statements!
-
----
-
-## ⚙️ Development Scripts
-
-Once your scaffolding finishes generating, step inside your directory and run the standard lifecycle workflows:
+If no project name is provided, the CLI will guide you through the setup interactively.
 
 ```bash
-# Install dependencies
-npm install
-
-# Boot up local development server
-npm run dev
-
-# Run ESLint validation checks with automated file ordering adjustment
-npm run lint
-
-# Compile production-ready code bundles
-npm run build
-
+npx create-next-mui
 ```
 
 ---
 
-## 🤝 Contributing & Feedback
+# Non-interactive Mode
 
-Issues and pull requests are highly welcome! If you want to expand the templates or suggest additional components, feel free to open an issue or submit a pull request on the official repository.
+Use the `--yes` (or `-y`) flag to skip prompts and accept the default configuration.
 
-Maintained with 💻 by [thatonevikash](https://github.com/thatonevikash).
+```bash
+npx create-next-mui my-app --yes
+```
+
+This will automatically:
+
+- use the provided project name
+- select the **TypeScript** template
+- generate the project without prompting
+
+This is especially useful for:
+
+- CI/CD pipelines
+- automation scripts
+- testing
+- quick project generation
 
 ---
 
-## 📜 License
+# Interactive Setup
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Without `--yes`, the CLI walks you through the available options.
+
+Current prompts include:
+
+- Project name
+- Language selection
+  - TypeScript (recommended)
+  - JavaScript
+
+---
+
+# Available Templates
+
+## TypeScript
+
+Recommended for most projects.
+
+Includes:
+
+- TypeScript
+- strict type checking
+- MUI theme typings
+- ESLint Flat Config
+
+## JavaScript
+
+For developers who prefer JavaScript.
+
+Includes:
+
+- modern JavaScript
+- Material UI
+- ESLint Flat Config
+
+---
+
+# Generated Project Structure
+
+```text
+my-app/
+├── src/
+│   ├── app/
+│   ├── components/
+│   └── theme/
+├── eslint.config.mjs
+├── next.config.js
+├── package.json
+└── README.md
+```
+
+---
+
+# What's Included
+
+Every generated project comes configured with:
+
+- Next.js App Router
+- Material UI
+- Theme Provider
+- Emotion integration
+- ESLint v9 Flat Config
+- eslint-plugin-perfectionist
+- eslint-plugin-unused-imports
+- organized project structure
+
+Development artifacts such as `node_modules`, `.next`, and build caches are excluded from generated projects.
+
+---
+
+# Getting Started
+
+After scaffolding:
+
+```bash
+cd my-app
+npm install
+npm run dev
+```
+
+Useful scripts:
+
+```bash
+npm run dev
+```
+
+Start the development server.
+
+```bash
+npm run lint
+```
+
+Run ESLint.
+
+```bash
+npm run build
+```
+
+Create a production build.
+
+---
+
+# CLI Reference
+
+## Create a project
+
+```bash
+npx create-next-mui my-app
+```
+
+## Interactive mode
+
+```bash
+npx create-next-mui
+```
+
+## Accept defaults
+
+```bash
+npx create-next-mui my-app --yes
+```
+
+or
+
+```bash
+npx create-next-mui my-app -y
+```
+
+---
+
+# Contributing
+
+Issues and pull requests are welcome.
+
+If you'd like to improve the templates or add new features, feel free to open an issue or submit a PR.
+
+---
+
+# License
+
+MIT
