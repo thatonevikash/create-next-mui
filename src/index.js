@@ -6,11 +6,13 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// Resolve the directory where this CLI package actually lives on the user's system
+// ----------------------------------------------------------------------
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const args = process.argv.slice(2);
+
 const positionalArgs = args.filter(
   (arg) => !["--yes", "-y", "--js"].includes(arg),
 );
@@ -22,6 +24,36 @@ const hasYesFlag = args.includes("--yes") || args.includes("-y");
 const hasJsFlag = args.includes("--js");
 
 const DEFAULT_LANGUAGE = hasJsFlag ? "js" : "ts";
+
+// ----------------------------------------------------------------------
+
+const LANG = [
+  {
+    value: "ts",
+    label: "TypeScript (Recommended)",
+    hint: "Strict typings, clean architecture",
+  },
+  {
+    value: "js",
+    label: "JavaScript",
+    hint: "Vanilla JS configuration",
+  },
+];
+
+const FEATURES = [
+  {
+    value: "react-query",
+    label: "React Query",
+    hint: "TanStack Query configuration",
+  },
+  {
+    value: "zustand",
+    label: "Zustand",
+    hint: "Lightweight global state management",
+  },
+];
+
+// ----------------------------------------------------------------------
 
 function validateProjectName(value) {
   if (value.length === 0) return "Project name is required!";
@@ -58,15 +90,17 @@ async function updateProjectName(targetProjectDir, packageName) {
         await fs.writeFile(filePath, `${JSON.stringify(json, null, 2)}\n`);
       } catch (error) {
         if (error.code === "ENOENT") return;
-
         throw error;
       }
     }),
   );
 }
 
+// ----------------------------------------------------------------------
+
 async function main() {
   console.clear();
+
   p.intro(color.bgBlue(color.white("  create-next-mui  ")));
 
   const projectNameError = hasInitialProjectName
@@ -88,23 +122,22 @@ async function main() {
               placeholder: "my-next-mui-app (or '.' for current directory)",
               validate: validateProjectName,
             }),
+
       language: () =>
         hasYesFlag
           ? Promise.resolve(DEFAULT_LANGUAGE)
           : p.select({
               message: "Choose your language flavor:",
-              options: [
-                {
-                  value: "ts",
-                  label: "TypeScript (Recommended)",
-                  hint: "Strict typings, clean architecture",
-                },
-                {
-                  value: "js",
-                  label: "JavaScript",
-                  hint: "Vanilla JS configuration",
-                },
-              ],
+              options: LANG,
+            }),
+
+      features: () =>
+        hasYesFlag
+          ? Promise.resolve([])
+          : p.multiselect({
+              message: "Select optional features:",
+              required: false,
+              options: FEATURES,
             }),
     },
     {
@@ -115,71 +148,110 @@ async function main() {
     },
   );
 
-  // Define local source paths (inside this CLI package folder)
-  const templateFolderName =
-    project.language === "ts" ? "next-mui-template-ts" : "next-mui-template-js";
-  const sourceTemplateDir = path.resolve(__dirname, "..", templateFolderName);
+  // --------------------------------------------------------------------
+  // Paths
+  // --------------------------------------------------------------------
 
-  // Define destination paths (where the user is running the command)
+  const baseTemplateDir = path.resolve(
+    __dirname,
+    "..",
+    "next-mui-templates",
+    `base-${project.language}`,
+  );
+
   const targetProjectDir = path.resolve(process.cwd(), project.name);
+
   const packageName = getPackageName(project.name, targetProjectDir);
 
-  // If targeting current directory, make sure it's clean
+  // --------------------------------------------------------------------
+  // Current directory validation
+  // --------------------------------------------------------------------
+
   if (project.name === ".") {
     try {
-      const existingFiles = await fs.readdir(targetProjectDir);
-      if (existingFiles.length > 0) {
+      const files = await fs.readdir(targetProjectDir);
+
+      if (files.length > 0) {
         p.log.error(
           color.red(
-            "The current directory is not empty! Please clear it or specify a project name.",
+            "The current directory is not empty! Please clear it or specify another project name.",
           ),
         );
+
         process.exit(1);
       }
-    } catch (err) {
-      // If the directory reading fails completely, we exit safely
+    } catch {
       process.exit(1);
     }
   }
 
+  // --------------------------------------------------------------------
+
   const s = p.spinner();
-  s.start("Unboxing your Next.js + MUI foundation locally...");
+
+  s.start("Scaffolding your Next.js + MUI workspace...");
 
   try {
-    // Native high-speed recursive copy
-    await fs.cp(sourceTemplateDir, targetProjectDir, {
+    // ------------------------------------------------------------------
+    // Copy base template
+    // ------------------------------------------------------------------
+
+    await fs.cp(baseTemplateDir, targetProjectDir, {
       recursive: true,
       filter: (src) => {
-        const targetName = path.basename(src);
-        return (
-          targetName !== "node_modules" &&
-          targetName !== ".next" &&
-          targetName !== "out" &&
-          targetName !== "build"
-        );
+        const name = path.basename(src);
+
+        return !["node_modules", ".next", "out", "build"].includes(name);
       },
     });
+
+    // ------------------------------------------------------------------
+    // Apply selected features
+    // ------------------------------------------------------------------
+
+    for (const feature of project.features) {
+      const featureDir = path.resolve(
+        __dirname,
+        "..",
+        "next-mui-features",
+        feature,
+        project.language,
+      );
+
+      await fs.cp(featureDir, targetProjectDir, {
+        recursive: true,
+        filter: (src) => {
+          const name = path.basename(src);
+
+          return !["node_modules", ".next", "out", "build"].includes(name);
+        },
+      });
+    }
+
+    // ------------------------------------------------------------------
+
     await updateProjectName(targetProjectDir, packageName);
 
     s.stop(color.green("Workspace scaffolded successfully!"));
   } catch (error) {
-    s.stop(color.red("Failed to build workspace structure."));
-    p.note(color.yellow(`Error details: ${error.message}`), "Troubleshooting:");
+    s.stop(color.red("Failed to scaffold workspace."));
+
+    p.note(color.yellow(error.message), "Troubleshooting");
+
     process.exit(1);
   }
 
-  // Clear instructions for the developer
-  const isCurrentDir = project.name === ".";
-  const cdInstruction = isCurrentDir
-    ? ""
-    : `${color.cyan(`cd ${project.name}`)}\n`;
+  // --------------------------------------------------------------------
+
+  const cd =
+    project.name === "." ? "" : `${color.cyan(`cd ${project.name}`)}\n`;
 
   p.note(
-    `${cdInstruction}${color.cyan("npm install")}\n${color.cyan("npm run dev")}`,
-    "Next Steps to Get Started:",
+    `${cd}${color.cyan("npm install")}\n${color.cyan("npm run dev")}`,
+    "Next Steps",
   );
 
-  p.outro(`✨ Code cleanly, sort perfectly. Built with create-next-mui!`);
+  p.outro("✨ Build clean and fast with create-next-mui!");
 }
 
 main().catch(console.error);

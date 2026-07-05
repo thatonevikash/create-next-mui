@@ -23,8 +23,7 @@
   },
   "files": [
     "src",
-    "next-mui-template-ts",
-    "next-mui-template-js"
+    "next-mui-templates"
   ],
   "main": "index.js",
   "scripts": {
@@ -32,7 +31,6 @@
   },
   "dependencies": {
     "@clack/prompts": "^1.5.0",
-    "degit": "^3.3.2",
     "picocolors": "^1.1.1"
   }
 }
