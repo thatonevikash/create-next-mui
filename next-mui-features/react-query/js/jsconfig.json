@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["**/*.js", "**/*.jsx", "**/*.mjs", "**/*.json"],
+  "exclude": ["node_modules", ".next", "out", "build"]
+}
