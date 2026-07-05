@@ -2,15 +2,15 @@
 
 import Image from "next/image";
 
-import Box from "`@mui/material/Box`";
-import Link from "`@mui/material/Link`";
-import Paper from "`@mui/material/Paper`";
-import Stack from "`@mui/material/Stack`";
-import Button from "`@mui/material/Button`";
-import SvgIcon from "`@mui/material/SvgIcon`";
-import Container from "`@mui/material/Container`";
-import Typography from "`@mui/material/Typography`";
-import { alpha as hexAlpha } from "`@mui/material/styles`";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import SvgIcon from "@mui/material/SvgIcon";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import { alpha as hexAlpha } from "@mui/material/styles";
 
 import { RouterLink } from "@/lib/router-link";
 
