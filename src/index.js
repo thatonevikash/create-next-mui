@@ -13,6 +13,10 @@ const __dirname = path.dirname(__filename);
 
 const args = process.argv.slice(2);
 
+const command = args[0];
+
+const featureName = args[1];
+
 const positionalArgs = args.filter(
   (arg) => !["--yes", "-y", "--js"].includes(arg),
 );
@@ -102,6 +106,94 @@ async function main() {
   console.clear();
 
   p.intro(color.bgBlue(color.white("  create-next-mui  ")));
+
+  // ----------------------------------------------------------------------
+  // Add Feature Command
+  // ----------------------------------------------------------------------
+
+  if (command === "add") {
+    if (!featureName) {
+      p.cancel(
+        "Please specify a feature.\n\nExample:\ncreate-next-mui add react-query",
+      );
+      process.exit(1);
+    }
+
+    if (!FEATURES.some((f) => f.value === featureName)) {
+      p.cancel(`Unknown feature "${featureName}".`);
+      process.exit(1);
+    }
+
+    const projectRoot = process.cwd();
+
+    // Verify package.json exists
+    try {
+      await fs.access(path.join(projectRoot, "package.json"));
+    } catch {
+      p.cancel(
+        "No package.json found.\nRun this command inside a Next.js project.",
+      );
+      process.exit(1);
+    }
+
+    // Detect language
+    let language = "js";
+
+    try {
+      await fs.access(path.join(projectRoot, "tsconfig.json"));
+      language = "ts";
+    } catch {
+      // JavaScript project
+    }
+
+    const featureDir = path.resolve(
+      __dirname,
+      "..",
+      "next-mui-features",
+      featureName,
+      language,
+    );
+
+    // Verify feature exists
+    try {
+      await fs.access(featureDir);
+    } catch {
+      p.cancel(
+        `Feature "${featureName}" does not support ${language.toUpperCase()}.`,
+      );
+      process.exit(1);
+    }
+
+    const spinner = p.spinner();
+
+    spinner.start(`Installing ${featureName}...`);
+
+    try {
+      await fs.cp(featureDir, projectRoot, {
+        recursive: true,
+        force: true,
+        filter: (src) => {
+          const name = path.basename(src);
+
+          return !["node_modules", ".next", "out", "build"].includes(name);
+        },
+      });
+
+      spinner.stop(color.green(`${featureName} installed successfully.`));
+
+      p.note(`${color.cyan("npm install")}`, "Next Step");
+
+      p.outro(`✨ ${featureName} added successfully!`);
+
+      return;
+    } catch (error) {
+      spinner.stop(color.red("Failed to install feature."));
+
+      p.note(error.message, "Error");
+
+      process.exit(1);
+    }
+  }
 
   const projectNameError = hasInitialProjectName
     ? validateProjectName(PROJECT_NAME)
