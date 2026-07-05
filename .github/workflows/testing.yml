@@ -11,9 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      # Runs both TS and JS builds concurrently in separate runners
       matrix:
-        template-dir: [next-mui-template-ts, next-mui-template-js]
+        template-dir:
+          - next-mui-templates/base-ts
+          - next-mui-templates/base-js
 
     steps:
       - name: Checkout Code
@@ -23,24 +24,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          # Automatically caches npm dependencies to make subsequent runs blazing fast
           cache: "npm"
-          cache-dependency-path: "./${{ matrix.template-dir }}/package.json"
+          cache-dependency-path: "${{ matrix.template-dir }}/package-lock.json"
 
       - name: Install Template Dependencies
-        run: |
-          cd ${{ matrix.template-dir }}
-          npm install
+        working-directory: ${{ matrix.template-dir }}
+        run: npm install
 
-      - name: Check Eslint
-        run: |
-          cd ${{ matrix.template-dir }}
-          npm run lint
+      - name: Check ESLint
+        working-directory: ${{ matrix.template-dir }}
+        run: npm run lint
 
       - name: Run Next.js Production Build
-        run: |
-          cd ${{ matrix.template-dir }}
-          npm run build
+        working-directory: ${{ matrix.template-dir }}
+        run: npm run build
 
   run-default-cli:
     name: Run default CLI
