@@ -75,6 +75,9 @@ Current prompts include:
 - Language selection
   - TypeScript (recommended)
   - JavaScript
+- Features
+  - Zustand
+  - React Query ( TanStack Query )
 
 ---
 
@@ -100,6 +103,11 @@ Includes:
 - modern JavaScript
 - Material UI
 - ESLint Flat Config
+
+## Features
+
+- Zustand
+- React Query ( TanStack Query )
 
 ---
 
