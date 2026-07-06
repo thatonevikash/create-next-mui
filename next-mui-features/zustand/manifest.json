@@ -1,0 +1,12 @@
+{
+  "name": "zustand",
+  "dependencies": {
+    "zustand": "^5.0.14"
+  },
+  "files": [
+    {
+      "src": "src/stores/counter-store",
+      "dest": "src/stores/counter-store"
+    }
+  ]
+}

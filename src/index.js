@@ -12,9 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const args = process.argv.slice(2);
-
 const command = args[0];
-
 const featureName = args[1];
 
 const positionalArgs = args.filter(
@@ -58,6 +56,8 @@ const FEATURES = [
 ];
 
 // ----------------------------------------------------------------------
+// Helper Functions
+// ----------------------------------------------------------------------
 
 function validateProjectName(value) {
   if (value.length === 0) return "Project name is required!";
@@ -75,31 +75,126 @@ function getPackageName(projectName, targetProjectDir) {
 }
 
 async function updateProjectName(targetProjectDir, packageName) {
-  const files = ["package.json", "package-lock.json"];
+  const filePath = path.join(targetProjectDir, "package.json");
+  try {
+    const content = await fs.readFile(filePath, "utf8");
+    const json = JSON.parse(content);
+    json.name = packageName;
 
-  await Promise.all(
-    files.map(async (file) => {
-      const filePath = path.join(targetProjectDir, file);
-
-      try {
-        const content = await fs.readFile(filePath, "utf8");
-        const json = JSON.parse(content);
-
-        json.name = packageName;
-
-        if (json.packages?.[""]?.name) {
-          json.packages[""].name = packageName;
-        }
-
-        await fs.writeFile(filePath, `${JSON.stringify(json, null, 2)}\n`);
-      } catch (error) {
-        if (error.code === "ENOENT") return;
-        throw error;
-      }
-    }),
-  );
+    if (json.packages?.[""]?.name) {
+      json.packages[""].name = packageName;
+    }
+    await fs.writeFile(filePath, `${JSON.stringify(json, null, 2)}\n`);
+  } catch (error) {
+    if (error.code === "ENOENT") return;
+    throw error;
+  }
 }
 
+async function mergePackageJson(targetProjectDir, manifest) {
+  const filePath = path.join(targetProjectDir, "package.json");
+  try {
+    const content = await fs.readFile(filePath, "utf8");
+    const json = JSON.parse(content);
+
+    json.dependencies = {
+      ...json.dependencies,
+      ...(manifest.dependencies || {}),
+    };
+
+    json.devDependencies = {
+      ...json.devDependencies,
+      ...(manifest.devDependencies || {}),
+    };
+
+    await fs.writeFile(filePath, `${JSON.stringify(json, null, 2)}\n`);
+  } catch (error) {
+    if (error.code === "ENOENT") return;
+    throw error;
+  }
+}
+
+async function injectProviderToLayout(targetProjectDir, manifest, language) {
+  const ext = language === "ts" ? "tsx" : "jsx";
+  const layoutPath = path.join(targetProjectDir, "src", "app", `layout.${ext}`);
+
+  try {
+    let content = await fs.readFile(layoutPath, "utf8");
+
+    // 1. Inject the Import Line safely below the last import
+    if (manifest.importLine && !content.includes(manifest.importLine)) {
+      const lines = content.split("\n");
+      const lastImportIndex = lines.findLastIndex((line) =>
+        line.trim().startsWith("import"),
+      );
+
+      if (lastImportIndex !== -1) {
+        lines.splice(lastImportIndex + 1, 0, manifest.importLine);
+        content = lines.join("\n");
+      } else {
+        content = `${manifest.importLine}\n${content}`;
+      }
+    }
+
+    // 2. Wrap {children} dynamically
+    if (manifest.expression) {
+      const openTag = manifest.expression.open;
+      const closeTag = manifest.expression.close;
+
+      if (!content.includes(openTag)) {
+        content = content.replace(
+          /(\>\s*)\{\s*children\s*\}(\s*\<)/,
+          `$1${openTag} {children} ${closeTag}$2`,
+        );
+      }
+    }
+
+    await fs.writeFile(layoutPath, content, "utf8");
+  } catch (error) {
+    if (error.code === "ENOENT") return;
+    throw error;
+  }
+}
+
+async function applyFeature(feature, targetProjectDir, language) {
+  const featureDir = path.resolve(
+    __dirname,
+    "..",
+    "next-mui-features",
+    feature,
+  );
+  const manifestPath = path.join(featureDir, "manifest.json");
+  const ext = language == "ts" ? "tsx" : "jsx";
+
+  let manifest = {};
+  try {
+    const manifestContent = await fs.readFile(manifestPath, "utf8");
+    manifest = JSON.parse(manifestContent);
+  } catch {
+    // Fail-safe if manifest is missing or malformed
+    return;
+  }
+
+  // 1. Copy feature-specific files from the language subdirectory
+  if (manifest.files) {
+    for (const file of manifest.files) {
+      const srcPath = path.resolve(featureDir, language, `${file.src}.${ext}`);
+      const destPath = path.resolve(targetProjectDir, `${file.dest}.${ext}`);
+
+      await fs.mkdir(path.dirname(destPath), { recursive: true });
+      await fs.copyFile(srcPath, destPath);
+    }
+  }
+
+  // 2. Merge dependencies into package.json
+  await mergePackageJson(targetProjectDir, manifest);
+
+  // 3. Perform dynamic layout file nesting
+  await injectProviderToLayout(targetProjectDir, manifest, language);
+}
+
+// ----------------------------------------------------------------------
+// Main Execution Control Loop
 // ----------------------------------------------------------------------
 
 async function main() {
@@ -108,7 +203,7 @@ async function main() {
   p.intro(color.bgBlue(color.white("  create-next-mui  ")));
 
   // ----------------------------------------------------------------------
-  // Add Feature Command
+  // Add Feature Command Pipeline
   // ----------------------------------------------------------------------
 
   if (command === "add") {
@@ -126,7 +221,7 @@ async function main() {
 
     const projectRoot = process.cwd();
 
-    // Verify package.json exists
+    // Verify package.json exists in target execution environment
     try {
       await fs.access(path.join(projectRoot, "package.json"));
     } catch {
@@ -136,64 +231,35 @@ async function main() {
       process.exit(1);
     }
 
-    // Detect language
+    // Auto-detect layout flavor via tsconfig existence
     let language = "js";
-
     try {
       await fs.access(path.join(projectRoot, "tsconfig.json"));
       language = "ts";
     } catch {
-      // JavaScript project
-    }
-
-    const featureDir = path.resolve(
-      __dirname,
-      "..",
-      "next-mui-features",
-      featureName,
-      language,
-    );
-
-    // Verify feature exists
-    try {
-      await fs.access(featureDir);
-    } catch {
-      p.cancel(
-        `Feature "${featureName}" does not support ${language.toUpperCase()}.`,
-      );
-      process.exit(1);
+      // Keep fallback as js configuration
     }
 
     const spinner = p.spinner();
-
     spinner.start(`Installing ${featureName}...`);
 
     try {
-      await fs.cp(featureDir, projectRoot, {
-        recursive: true,
-        force: true,
-        filter: (src) => {
-          const name = path.basename(src);
-
-          return !["node_modules", ".next", "out", "build"].includes(name);
-        },
-      });
+      await applyFeature(featureName, projectRoot, language);
 
       spinner.stop(color.green(`${featureName} installed successfully.`));
-
       p.note(`${color.cyan("npm install")}`, "Next Step");
-
       p.outro(`✨ ${featureName} added successfully!`);
-
       return;
     } catch (error) {
       spinner.stop(color.red("Failed to install feature."));
-
       p.note(error.message, "Error");
-
       process.exit(1);
     }
   }
+
+  // ----------------------------------------------------------------------
+  // Interactive Fresh Workspace Scaffolding Pipeline
+  // ----------------------------------------------------------------------
 
   const projectNameError = hasInitialProjectName
     ? validateProjectName(PROJECT_NAME)
@@ -240,10 +306,6 @@ async function main() {
     },
   );
 
-  // --------------------------------------------------------------------
-  // Paths
-  // --------------------------------------------------------------------
-
   const baseTemplateDir = path.resolve(
     __dirname,
     "..",
@@ -252,24 +314,17 @@ async function main() {
   );
 
   const targetProjectDir = path.resolve(process.cwd(), project.name);
-
   const packageName = getPackageName(project.name, targetProjectDir);
-
-  // --------------------------------------------------------------------
-  // Current directory validation
-  // --------------------------------------------------------------------
 
   if (project.name === ".") {
     try {
       const files = await fs.readdir(targetProjectDir);
-
       if (files.length > 0) {
         p.log.error(
           color.red(
             "The current directory is not empty! Please clear it or specify another project name.",
           ),
         );
-
         process.exit(1);
       }
     } catch {
@@ -277,63 +332,33 @@ async function main() {
     }
   }
 
-  // --------------------------------------------------------------------
-
   const s = p.spinner();
-
   s.start("Scaffolding your Next.js + MUI workspace...");
 
   try {
-    // ------------------------------------------------------------------
-    // Copy base template
-    // ------------------------------------------------------------------
-
+    // 1. Unpack base layout system
     await fs.cp(baseTemplateDir, targetProjectDir, {
       recursive: true,
       filter: (src) => {
         const name = path.basename(src);
-
         return !["node_modules", ".next", "out", "build"].includes(name);
       },
     });
 
-    // ------------------------------------------------------------------
-    // Apply selected features
-    // ------------------------------------------------------------------
-
+    // 2. Map and loop over chosen features sequentially
     for (const feature of project.features) {
-      const featureDir = path.resolve(
-        __dirname,
-        "..",
-        "next-mui-features",
-        feature,
-        project.language,
-      );
-
-      await fs.cp(featureDir, targetProjectDir, {
-        recursive: true,
-        filter: (src) => {
-          const name = path.basename(src);
-
-          return !["node_modules", ".next", "out", "build"].includes(name);
-        },
-      });
+      await applyFeature(feature, targetProjectDir, project.language);
     }
 
-    // ------------------------------------------------------------------
-
+    // 3. Finalize package.json configuration naming
     await updateProjectName(targetProjectDir, packageName);
 
     s.stop(color.green("Workspace scaffolded successfully!"));
   } catch (error) {
     s.stop(color.red("Failed to scaffold workspace."));
-
     p.note(color.yellow(error.message), "Troubleshooting");
-
     process.exit(1);
   }
-
-  // --------------------------------------------------------------------
 
   const cd =
     project.name === "." ? "" : `${color.cyan(`cd ${project.name}`)}\n`;
