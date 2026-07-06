@@ -23,7 +23,8 @@
   },
   "files": [
     "src",
-    "next-mui-templates"
+    "next-mui-templates",
+    "next-mui-features"
   ],
   "main": "index.js",
   "scripts": {
