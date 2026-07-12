@@ -193,6 +193,18 @@ async function applyFeature(feature, targetProjectDir, language) {
   await injectProviderToLayout(targetProjectDir, manifest, language);
 }
 
+async function restoreGitignore(targetProjectDir) {
+  const shipped = path.join(targetProjectDir, "gitignore");
+  const proper = path.join(targetProjectDir, ".gitignore");
+
+  try {
+    await fs.rename(shipped, proper);
+  } catch (error) {
+    if (error.code === "ENOENT") return; // template had no gitignore
+    throw error;
+  }
+}
+
 // ----------------------------------------------------------------------
 // Main Execution Control Loop
 // ----------------------------------------------------------------------
@@ -344,6 +356,10 @@ async function main() {
         return !["node_modules", ".next", "out", "build"].includes(name);
       },
     });
+
+    // 1b. npm strips real .gitignore files at publish time —
+    // template ships it dot-less, restore it here.
+    await restoreGitignore(targetProjectDir);
 
     // 2. Map and loop over chosen features sequentially
     for (const feature of project.features) {
