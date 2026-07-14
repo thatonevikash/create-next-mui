@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "---Overview---",
+    "index",
+    "quick-start",
+    "---Advanced---",
+    "configs",
+    "plugin",
+    "---Links---",
+    "external:[Link][GitHub](https://github.com/thatonevikash/create-next-mui)"
+  ]
+}
