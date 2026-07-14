@@ -6,7 +6,11 @@ const withMDX = createMDX();
 const config = {
   output: "export",
   basePath: process.env.NODE_ENV === "production" ? "/create-next-mui" : "",
+  trailingSlash: true,
   reactStrictMode: true,
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default withMDX(config);
