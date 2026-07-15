@@ -1,4 +1,5 @@
 {
   "title": "Configs",
-  "icon": "Settings"
+  "icon": "Settings",
+  "pages": ["options", "flags", "default"]
 }

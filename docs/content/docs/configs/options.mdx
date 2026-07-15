@@ -3,9 +3,35 @@ title: Options
 description: CLI options
 ---
 
+import { ArrowUpRight } from "lucide-react";
+
 Interactive options to curate your desired project.
 
-## Supported templates
+## Arguments
+
+The CLI extends it capablity using arguments ( flags )
+
+### Project Name
+
+```bash
+npx create-next-mui@latest <project-name>
+```
+
+The above command Initializes a new project with specified project name.
+
+<Callout type="idea" title="Know">
+`<project-name>` as `.` for using the current directory as **base** directory.
+</Callout>
+
+### Plugin Integration
+
+```bash
+npx create-next-mui@latest add <plugin-name>
+```
+
+The above command Integrates a [plugin<ArrowUpRight className="inline-flex h-4 w-4" />](../plugin) in existing project.
+
+## Templates
 
 - `TypeScript`
 - `JavaScript`

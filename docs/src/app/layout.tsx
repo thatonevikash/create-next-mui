@@ -13,22 +13,10 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: LayoutProps<"/">) {
-  const basePath =
-    process.env.NODE_ENV === "production" ? "/create-next-mui" : "";
-
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
-        <RootProvider
-          search={{
-            options: {
-              type: "static",
-              api: `${basePath}/api/search`,
-            },
-          }}
-        >
-          {children}
-        </RootProvider>
+        <RootProvider>{children}</RootProvider>
       </body>
     </html>
   );

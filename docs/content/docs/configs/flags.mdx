@@ -1,13 +1,25 @@
 ---
-title: Flags
+title: Flags Support
 description: Extends CLI
 ---
 
+import { ArrowUpRight } from "lucide-react";
+
 `next-mui` supports flags to skip interactive inputs.
 
-## Supported `flags`
+## Supported flags
 
 | Signature | Shorthand | Description                                                                        |
 | :-------- | :-------- | :--------------------------------------------------------------------------------- |
 | `--yes`   | `-y`      | Skips the interactive `CLI` completely and setup application with default template |
-| `--js`    |           | Skips template selection                                                           |
+| `--js`    |           | Skips template selection and force JavaScript template                             |
+
+## Examples
+
+### Zero Interactivity
+
+```bash
+npx create-next-mui@latest my-app --yes
+```
+
+Skips all the inputs and Initialize a nextjs + mui project with [default template <ArrowUpRight className="inline-flex h-4 w-4" />](./default#default-template)

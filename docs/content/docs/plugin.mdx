@@ -4,11 +4,121 @@ description: Extends support with plugins
 icon: Plug
 ---
 
-Now, `next-mui` supports plugins to advance the setup.
+Now, `next-mui` supports plugins to extend the base setup.
 
-## Supported `flags`
+## Supported plugins
 
-| Signature | Shorthand | Description                                                                        |
-| :-------- | :-------- | :--------------------------------------------------------------------------------- |
-| `--yes`   | `-y`      | Skips the interactive `CLI` completely and setup application with default template |
-| `--js`    |           | Skips template selection                                                           |
+| Plugin        | Description                                                              |
+| :------------ | :----------------------------------------------------------------------- |
+| `zustand`     | Extends base setup with `zustand` for statemanagement                    |
+| `react-query` | Extends the client side data fetching via TanStack Query (`react-query`) |
+
+## Installation method
+
+<Callout type="idea">
+  Interactive CLI supports these **plugins**, If you're building a **fresh
+  project**.
+</Callout>
+
+The `add` argument dictate the cli to **install** a plugin after `namespace`
+
+### Zustand
+
+```bash
+npx create-next-mui add zustand
+```
+
+Initializes, `zustand` with a sample `store`
+
+```tsx
+// counter-store.tsx
+
+import { create } from "zustand";
+
+// ---------------------------------------------------------------
+
+interface CounterStore {
+  count: number;
+  increment(): void;
+  decrement(): void;
+  reset(): void;
+}
+
+export const useCounterStore = create<CounterStore>((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+  decrement: () => set((state) => ({ count: state.count - 1 })),
+  reset: () => set({ count: 0 }),
+}));
+```
+
+### TanStack Query
+
+```bash
+npx create-next-mui add react-query
+```
+
+The above command omits a `tanstack-provider.tsx` wrapper component
+
+```tsx
+// tanstack-provider.tsx
+
+"use client";
+
+import { useState } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// ---------------------------------------------------------------
+
+export function TanStackProvider({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // With SSR, we usually want to set some default staleTime
+            // to avoid refetching immediately on the client
+            staleTime: 60 * 1000,
+          },
+        },
+      }),
+  );
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
+}
+```
+
+And updates the `layout.tsx`
+
+```tsx
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
+      <body>
+        // [!code --]
+        <ThemeProvider> {children} </ThemeProvider>
+        // [!code ++]
+        <ThemeProvider>
+          // [!code ++]
+          <TanStackProvider> {children} </TanStackProvider>
+          // [!code ++]
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+```
