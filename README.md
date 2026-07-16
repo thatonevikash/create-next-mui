@@ -1,9 +1,9 @@
-<img width="1420" alt="CREATE-NEXT-MUI-BANNER" src="https://github.com/user-attachments/assets/11e72fc8-6b6d-40c4-97a1-c05f7b943e02" />
+[<img width="1420" alt="CREATE-NEXT-MUI-BANNER" src="https://github.com/user-attachments/assets/11e72fc8-6b6d-40c4-97a1-c05f7b943e02" />](https://create-next-mui.vercel.app/)
 
-# create-next-mui
+# [create-next-mui](https://create-next-mui.vercel.app/)
 
 [![npm version](https://img.shields.io/npm/v/create-next-mui?style=flat&logo=npm&color=CB3837)](https://www.npmjs.com/package/create-next-mui)
-[![Next.js](https://img.shields.io/badge/Next.js-v19-000000?style=flat&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-v16-000000?style=flat&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![MUI](https://img.shields.io/badge/MUI-v9-007FFF?style=flat&logo=mui&logoColor=white)](https://mui.com/)
 
 Scaffold a production-ready **Next.js + Material UI** application in seconds.
@@ -20,7 +20,7 @@ No global installation required.
 
 ---
 
-# Quick Start
+## Quick Start
 
 Create a new project:
 
@@ -42,7 +42,7 @@ npx create-next-mui
 
 ---
 
-# Non-interactive Mode
+## Non-interactive Mode
 
 Use the `--yes` (or `-y`) flag to skip prompts and accept the default configuration.
 
@@ -65,7 +65,7 @@ This is especially useful for:
 
 ---
 
-# Interactive Setup
+## Interactive Setup
 
 Without `--yes`, the CLI walks you through the available options.
 
@@ -83,7 +83,7 @@ Current prompts include:
 
 # Available Templates
 
-## TypeScript
+### TypeScript
 
 Recommended for most projects.
 
@@ -94,7 +94,7 @@ Includes:
 - MUI theme typings
 - ESLint Flat Config
 
-## JavaScript
+### JavaScript
 
 For developers who prefer JavaScript.
 
@@ -104,14 +104,14 @@ Includes:
 - Material UI
 - ESLint Flat Config
 
-## Features
+### Features
 
 - Zustand
 - React Query ( TanStack Query )
 
 ---
 
-# Generated Project Structure
+## Generated Project Structure
 
 ```text
 my-app/
@@ -127,7 +127,7 @@ my-app/
 
 ---
 
-# What's Included
+## What's Included
 
 Every generated project comes configured with:
 
@@ -144,7 +144,7 @@ Development artifacts such as `node_modules`, `.next`, and build caches are excl
 
 ---
 
-# Getting Started
+## Getting Started
 
 After scaffolding:
 
@@ -176,21 +176,21 @@ Create a production build.
 
 ---
 
-# CLI Reference
+## CLI Reference
 
-## Create a project
+### Create a project
 
 ```bash
 npx create-next-mui my-app
 ```
 
-## Interactive mode
+### Interactive mode
 
 ```bash
 npx create-next-mui
 ```
 
-## Accept defaults
+### Accept defaults
 
 ```bash
 npx create-next-mui my-app --yes
@@ -204,7 +204,14 @@ npx create-next-mui my-app -y
 
 ---
 
-# Contributing
+## Blogs
+
+- [Launched v0.2.0 with plugins](https://dev.to/thatonevikash/create-next-mui-v020-is-here-now-with-plugin-support-4l70) 🤩
+- [Launched v0.1.0](https://dev.to/thatonevikash/stop-manual-boilerplate-scaffolding-nextjs-with-mui-1l60) 🚀
+
+---
+
+## Contributing
 
 Issues and pull requests are welcome.
 
@@ -212,6 +219,6 @@ If you'd like to improve the templates or add new features, feel free to open an
 
 ---
 
-# License
+## License
 
 MIT
