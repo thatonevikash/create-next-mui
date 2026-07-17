@@ -1,13 +1,13 @@
 {
   "name": "create-next-mui",
   "version": "0.2.1",
-  "description": "spin up your nextjs project with mui setup",
+  "description": "Skip the manual setup steps to start with MUI for your upcoming projects",
   "keywords": [
     "nextjs",
     "mui",
     "create-next-mui"
   ],
-  "homepage": "https://github.com/thatonevikash/create-next-mui#readme",
+  "homepage": "https://create-next-mui.vercel.app/",
   "bugs": {
     "url": "https://github.com/thatonevikash/create-next-mui/issues"
   },
