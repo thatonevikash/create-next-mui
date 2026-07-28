@@ -1,44 +1,123 @@
 ---
 title: Options
-description: CLI options
+description: Learn about the supported commands, arguments, and flags available in create-next-mui.
 ---
 
 import { ArrowUpRight } from "lucide-react";
 
-Interactive options to curate your desired project.
+The CLI provides a small set of commands and flags to help you scaffold projects faster or extend existing ones with official plugins.
 
-## Arguments
+## Project Name
 
-The CLI extends it capablity using arguments ( flags )
-
-### Project Name
+Provide a project name to create a new application.
 
 ```bash
 npx create-next-mui@latest <project-name>
 ```
 
-The above command Initializes a new project with specified project name.
+### Example
 
-<Callout type="idea" title="Know">
-`<project-name>` as `.` for using the current directory as **base** directory.
+```bash
+npx create-next-mui@latest my-app
+```
+
+This creates a new project inside the `my-app` directory.
+
+<Callout type="tip" title="Current Directory">
+Use `.` as the project name to scaffold the project in the current working directory.
+
+```bash
+npx create-next-mui@latest .
+```
+
+Make sure the directory is empty before running the command.
+
 </Callout>
 
-### Plugin Integration
+---
+
+## Plugin Installation
+
+Install an official plugin into an existing project.
 
 ```bash
 npx create-next-mui@latest add <plugin-name>
 ```
 
-The above command Integrates a [plugin<ArrowUpRight className="inline-flex h-4 w-4" />](../plugin) in existing project.
+### Examples
+
+Install Zustand.
+
+```bash
+npx create-next-mui@latest add zustand
+```
+
+Install TanStack Query.
+
+```bash
+npx create-next-mui@latest add react-query
+```
+
+Supported plugins are documented in the [Plugins<ArrowUpRight className="inline-flex h-4 w-4" />](../plugin) section.
+
+---
 
 ## Templates
 
-- `TypeScript`
-- `JavaScript`
+Choose the language that best fits your project during the interactive setup.
 
-## Features
+| Template       | Description                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| **TypeScript** | Recommended for most projects. Includes strict typing and an improved developer experience. |
+| **JavaScript** | A lightweight option for developers who prefer JavaScript.                                  |
 
-- `Zustand`:
-  State management utility `library` to handle complex states
-- `TanStack Query`:
-  Also known as `React Query` for client side data `revalidation` and `caching`
+---
+
+## Official Plugins
+
+Official plugins can be installed at any time after your project has been created.
+
+### Zustand
+
+A lightweight state management library for React applications.
+
+Recommended when your application requires shared or complex client-side state.
+
+### TanStack Query
+
+Formerly known as **React Query**.
+
+Provides powerful tools for:
+
+- Server state management
+- Data fetching
+- Background refetching
+- Automatic caching
+- Request synchronization
+
+---
+
+## Supported Flags
+
+### `--yes`
+
+Skips all interactive prompts and generates the project using the default configuration.
+
+```bash
+npx create-next-mui@latest my-app --yes
+```
+
+### `-y`
+
+Short alias for `--yes`.
+
+```bash
+npx create-next-mui@latest my-app -y
+```
+
+These flags are especially useful for:
+
+- CI/CD pipelines
+- Automation scripts
+- Testing
+- Rapid project generation

@@ -1,41 +1,75 @@
 ---
 title: Plugins
-description: Extends support with plugins
+description: Extend your project with official plugins after creation or during the interactive setup.
 icon: Plug
 ---
 
-Now, `next-mui` supports plugins to extend the base setup.
+Official plugins let you extend a generated project without manually configuring common libraries.
 
-## Supported plugins
+Plugins can be installed in two ways:
 
-| Plugin        | Description                                                              |
-| :------------ | :----------------------------------------------------------------------- |
-| `zustand`     | Extends base setup with `zustand` for statemanagement                    |
-| `react-query` | Extends the client side data fetching via TanStack Query (`react-query`) |
+- During the interactive project setup.
+- At any time after project creation using the CLI.
 
-## Installation method
+This approach keeps the base template lightweight while allowing you to add features only when you need them.
 
-<Callout type="idea">
-  Interactive CLI supports these **plugins**, If you're building a **fresh
-  project**.
-</Callout>
+---
 
-The `add` argument dictate the cli to **install** a plugin after `namespace`
+## Supported Plugins
 
-### Zustand
+| Plugin        | Description                                                                        |
+| ------------- | ---------------------------------------------------------------------------------- |
+| `zustand`     | Adds a lightweight and scalable state management solution.                         |
+| `react-query` | Configures TanStack Query for server state management, caching, and data fetching. |
+
+More official plugins will be added in future releases.
+
+---
+
+## Install a Plugin
+
+Use the `add` command to install an official plugin into an existing project.
 
 ```bash
-npx create-next-mui add zustand
+npx create-next-mui@latest add <plugin-name>
 ```
 
-Initializes, `zustand` with a sample `store`
+### Examples
+
+Install Zustand.
+
+```bash
+npx create-next-mui@latest add zustand
+```
+
+Install TanStack Query.
+
+```bash
+npx create-next-mui@latest add react-query
+```
+
+<Callout type="tip" title="Interactive Setup">
+  When creating a new project, the interactive CLI lets you select plugins
+  during the setup process, so they are configured automatically before your
+  project is generated.
+</Callout>
+
+---
+
+## Zustand
+
+The Zustand plugin configures a ready-to-use state management setup.
+
+### What gets added?
+
+- Zustand dependency
+- Example counter store
+- Recommended project structure
+
+Example store:
 
 ```tsx
-// counter-store.tsx
-
 import { create } from "zustand";
-
-// ---------------------------------------------------------------
 
 interface CounterStore {
   count: number;
@@ -52,24 +86,30 @@ export const useCounterStore = create<CounterStore>((set) => ({
 }));
 ```
 
-### TanStack Query
+The generated store serves as a starting point and can be modified to suit your application's needs.
 
-```bash
-npx create-next-mui add react-query
-```
+---
 
-The above command omits a `tanstack-provider.tsx` wrapper component
+## TanStack Query
+
+The React Query plugin installs and configures **TanStack Query** with sensible defaults for Next.js applications.
+
+### What gets added?
+
+- TanStack Query dependencies
+- Query Client configuration
+- Provider component
+- React Query Devtools
+- Layout integration
+
+Generated provider:
 
 ```tsx
-// tanstack-provider.tsx
-
 "use client";
 
 import { useState } from "react";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-// ---------------------------------------------------------------
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export function TanStackProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -77,8 +117,6 @@ export function TanStackProvider({ children }: { children: React.ReactNode }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            // With SSR, we usually want to set some default staleTime
-            // to avoid refetching immediately on the client
             staleTime: 60 * 1000,
           },
         },
@@ -94,31 +132,27 @@ export function TanStackProvider({ children }: { children: React.ReactNode }) {
 }
 ```
 
-And updates the `layout.tsx`
+The plugin also updates your root layout by wrapping your application with the generated provider.
 
 ```tsx
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable}`}
-    >
-      <body>
-        // [!code --]
-        <ThemeProvider> {children} </ThemeProvider>
-        // [!code ++]
-        <ThemeProvider>
-          // [!code ++]
-          <TanStackProvider> {children} </TanStackProvider>
-          // [!code ++]
-        </ThemeProvider>
-      </body>
-    </html>
-  );
-}
+<ThemeProvider>
+  <TanStackProvider>{children}</TanStackProvider>
+</ThemeProvider>
 ```
+
+This ensures TanStack Query is available throughout your application without requiring any additional configuration.
+
+---
+
+## Why Plugins?
+
+Instead of maintaining multiple project templates, **create-next-mui** uses an official plugin system.
+
+This provides several advantages:
+
+- Install only what you need.
+- Keep generated projects lightweight.
+- Follow the recommended setup for each library.
+- Add new features to existing projects without recreating them.
+
+As the project evolves, additional official plugins will continue to expand the capabilities of the CLI.

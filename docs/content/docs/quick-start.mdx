@@ -1,31 +1,153 @@
 ---
 title: Quick Start
-description: Setup Next + MUI project
+description: Install create-next-mui and scaffold your first Next.js + Material UI application in minutes.
 icon: Flame
 ---
 
 import { ArrowUpRight } from "lucide-react";
 
-## Start CLI
+## Motivation
 
-You can simply start with the most relevant cli for setting up your `nextjs` with `mui` application.
+Get your **Next.js + Material UI** project up and running in just a few commands.
+
+No global installation is required—everything runs directly with **npx** or **npm init**.
+
+---
+
+## Prerequisites
+
+Before getting started, make sure you have:
+
+- Node.js **18+** (Latest LTS recommended)
+- npm (bundled with Node.js)
+
+If you don't have Node.js installed, download it from the official website.
+
+- [Node.js<ArrowUpRight className="inline-flex h-4 w-4" />](https://nodejs.org)
+
+---
+
+## Create a New Project
+
+Launch the interactive CLI.
 
 ```bash
 npx create-next-mui@latest
+```
 
-# or
+or
 
+```bash
 npm init next-mui@latest
 ```
 
-The command will spin up an interactive interface for further inputs.
+The CLI will guide you through the setup process, including:
 
-### Basic setup
+- Project name
+- Language selection
+- Optional plugins
 
-The `CLI` supports project `name` as the first [argument<ArrowUpRight className="inline-flex h-4 w-4" />](./configs/options#arguments) value.
+---
+
+## Create a Project with a Name
+
+You can also provide the project name directly.
 
 ```bash
 npx create-next-mui@latest my-app
 ```
 
-Specify your project name instead of `my-app`.
+Replace `my-app` with your preferred project name.
+
+The CLI will continue asking for the remaining configuration options.
+
+---
+
+## Start Without Prompts
+
+If you want to skip the interactive questions and generate a project using the default configuration, use the `--yes` flag.
+
+```bash
+npx create-next-mui@latest my-app --yes
+```
+
+or
+
+```bash
+npx create-next-mui@latest my-app -y
+```
+
+This automatically:
+
+- Uses the provided project name
+- Selects the TypeScript template
+- Accepts the default configuration
+- Generates the project immediately
+
+This mode is ideal for:
+
+- CI/CD pipelines
+- Automation scripts
+- Testing
+- Rapid project creation
+
+---
+
+## Run Your Project
+
+After the project has been generated, move into the project directory.
+
+```bash
+cd my-app
+```
+
+Install dependencies.
+
+```bash
+npm install
+```
+
+Start the development server.
+
+```bash
+npm run dev
+```
+
+Open your browser and visit:
+
+```text
+http://localhost:3000
+```
+
+You're now ready to start building your application.
+
+---
+
+## What Happens During Setup?
+
+The CLI creates a production-ready project with:
+
+- Next.js App Router
+- Material UI
+- Theme Provider
+- Emotion integration
+- ESLint Flat Config
+- Organized project structure
+
+Depending on your selections, it can also include official plugins like:
+
+- Zustand
+- TanStack Query
+
+---
+
+## Next Steps
+
+Now that your project is running, continue with the next guides to learn more.
+
+- Configure your project
+- Explore available templates
+- Install plugins
+- Learn the CLI commands
+
+Happy coding! 🚀
