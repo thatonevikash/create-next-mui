@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const COMMAND = "npx create-next-mui my-app";
 
-export default function TerminalCommand() {
+export function TerminalCommand() {
   const [typed, setTyped] = useState("");
   const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);

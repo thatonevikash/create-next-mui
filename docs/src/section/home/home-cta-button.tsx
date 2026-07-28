@@ -1,9 +1,8 @@
 import Link from "next/link";
 
-export default function CTAButtons() {
+export function CTAButtons() {
   return (
     <div className="mt-6 flex flex-wrap items-center gap-4 text-[14px]">
-      {/* Primary CTA (Read the Docs) */}
       <Link
         href="/docs"
         className="group relative inline-flex items-center justify-center gap-2 rounded-xl bg-zinc-900 px-5 py-2.5 font-semibold text-zinc-50 transition-all duration-200 ease-out hover:bg-zinc-800 hover:shadow-md active:scale-[0.98] dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-zinc-200"
