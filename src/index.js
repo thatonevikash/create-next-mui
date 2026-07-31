@@ -187,7 +187,7 @@ async function applyFeature(feature, targetProjectDir, language) {
       let destPath;
 
       if (file.root) {
-        srcPath = path.resolve(featureDir, language, `${file.src}`);
+        srcPath = path.resolve(featureDir, `${file.src}`);
         destPath = path.resolve(targetProjectDir, `${file.dest}`);
       } else {
         srcPath = path.resolve(featureDir, language, `${file.src}.${ext}`);
