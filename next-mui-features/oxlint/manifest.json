@@ -6,17 +6,17 @@
   },
   "files": [
     {
-      "src": ".oxlintignore",
+      "src": "source/.oxlintignore",
       "dest": ".oxlintignore",
       "root": true
     },
     {
-      "src": ".oxlintrc.json",
+      "src": "source/.oxlintrc.json",
       "dest": ".oxlintrc.json",
       "root": true
     },
     {
-      "src": "eslint.config.mjs",
+      "src": "source/eslint.config.mjs",
       "dest": "eslint.config.mjs",
       "root": true
     }
