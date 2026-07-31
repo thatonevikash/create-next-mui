@@ -1,0 +1,24 @@
+{
+  "name": "oxlint",
+  "devDependencies": {
+    "eslint-plugin-oxlint": "^1.76.0",
+    "oxlint": "^1.76.0"
+  },
+  "files": [
+    {
+      "src": ".oxlintignore",
+      "dest": ".oxlintignore",
+      "root": true
+    },
+    {
+      "src": ".oxlintrc.json",
+      "dest": ".oxlintrc.json",
+      "root": true
+    },
+    {
+      "src": "eslint.config.mjs",
+      "dest": "eslint.config.mjs",
+      "root": true
+    }
+  ]
+}

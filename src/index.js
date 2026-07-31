@@ -53,6 +53,11 @@ const FEATURES = [
     label: "Zustand",
     hint: "Lightweight global state management",
   },
+  {
+    value: "oxlint",
+    label: "Oxlint",
+    hint: "Fast lint errors in no-time",
+  },
 ];
 
 // ----------------------------------------------------------------------
@@ -178,8 +183,16 @@ async function applyFeature(feature, targetProjectDir, language) {
   // 1. Copy feature-specific files from the language subdirectory
   if (manifest.files) {
     for (const file of manifest.files) {
-      const srcPath = path.resolve(featureDir, language, `${file.src}.${ext}`);
-      const destPath = path.resolve(targetProjectDir, `${file.dest}.${ext}`);
+      let srcPath;
+      let destPath;
+
+      if (file.root) {
+        srcPath = path.resolve(featureDir, language, `${file.src}`);
+        destPath = path.resolve(targetProjectDir, `${file.dest}`);
+      } else {
+        srcPath = path.resolve(featureDir, language, `${file.src}.${ext}`);
+        destPath = path.resolve(targetProjectDir, `${file.dest}.${ext}`);
+      }
 
       await fs.mkdir(path.dirname(destPath), { recursive: true });
       await fs.copyFile(srcPath, destPath);
@@ -345,7 +358,7 @@ async function main() {
   }
 
   const s = p.spinner();
-  s.start("Scaffolding your Next.js + MUI workspace...");
+  s.start("Staging your Next.js + MUI workspace...");
 
   try {
     // 1. Unpack base layout system
@@ -353,7 +366,13 @@ async function main() {
       recursive: true,
       filter: (src) => {
         const name = path.basename(src);
-        return !["node_modules", ".next", "out", "build"].includes(name);
+        return ![
+          "node_modules",
+          ".next",
+          "out",
+          "build",
+          "package-lock.json",
+        ].includes(name);
       },
     });
 
@@ -369,9 +388,9 @@ async function main() {
     // 3. Finalize package.json configuration naming
     await updateProjectName(targetProjectDir, packageName);
 
-    s.stop(color.green("Workspace scaffolded successfully!"));
+    s.stop(color.green("Workspace built successfully!"));
   } catch (error) {
-    s.stop(color.red("Failed to scaffold workspace."));
+    s.stop(color.red("Failed to build workspace!"));
     p.note(color.yellow(error.message), "Troubleshooting");
     process.exit(1);
   }
