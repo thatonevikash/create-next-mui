@@ -1,3 +1,4 @@
+import oxlint from "eslint-plugin-oxlint";
 import perfectionist from "eslint-plugin-perfectionist";
 import unusedImports from "eslint-plugin-unused-imports";
 import nextTypeScript from "eslint-config-next/typescript";
@@ -85,6 +86,7 @@ const eslintConfig = defineConfig([
       ],
     },
   },
+  oxlint.configs["flat/recommended"],
 ]);
 
 export default eslintConfig;
