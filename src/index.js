@@ -6,6 +6,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { runner } from "./utils/install-packages.js";
+
 // ----------------------------------------------------------------------
 
 const __filename = fileURLToPath(import.meta.url);
@@ -328,10 +330,18 @@ async function main() {
               required: false,
               options: FEATURES,
             }),
+
+      autoInstall: () =>
+        hasYesFlag
+          ? Promise.resolve(false)
+          : p.confirm({
+              message: "Install packages now?",
+              initialValue: true,
+            }),
     },
     {
       onCancel: () => {
-        p.cancel("Scaffolding cancelled. See you next time!");
+        p.cancel("Building cancelled. See you next time!");
         process.exit(0);
       },
     },
@@ -393,6 +403,13 @@ async function main() {
 
     // 3. Finalize package.json configuration naming
     await updateProjectName(targetProjectDir, packageName);
+
+    // 4. Auto install packages
+    if (project.autoInstall) {
+      s.message("Installing packages...");
+
+      await runner("npm", ["install"], targetProjectDir);
+    }
 
     s.stop(color.green("Workspace built successfully!"));
   } catch (error) {
