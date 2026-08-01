@@ -96,21 +96,27 @@ async function updateProjectName(targetProjectDir, packageName) {
   }
 }
 
+function mergeAndSort(current = {}, incoming = {}) {
+  return Object.fromEntries(
+    Object.entries({
+      ...current,
+      ...incoming,
+    }).sort(([a], [b]) => a.localeCompare(b)),
+  );
+}
+
 async function mergePackageJson(targetProjectDir, manifest) {
   const filePath = path.join(targetProjectDir, "package.json");
   try {
     const content = await fs.readFile(filePath, "utf8");
     const json = JSON.parse(content);
 
-    json.dependencies = {
-      ...json.dependencies,
-      ...(manifest.dependencies || {}),
-    };
+    json.dependencies = mergeAndSort(json.dependencies, manifest.dependencies);
 
-    json.devDependencies = {
-      ...json.devDependencies,
-      ...(manifest.devDependencies || {}),
-    };
+    json.devDependencies = mergeAndSort(
+      json.devDependencies,
+      manifest.devDependencies,
+    );
 
     await fs.writeFile(filePath, `${JSON.stringify(json, null, 2)}\n`);
   } catch (error) {
