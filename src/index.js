@@ -234,7 +234,7 @@ async function restoreGitignore(targetProjectDir) {
 async function main() {
   console.clear();
 
-  p.intro(color.bgBlue(color.white("  create-next-mui  ")));
+  p.intro(color.bgBlue(color.white(" Welcome to create-next-mui ")));
 
   // ----------------------------------------------------------------------
   // Add Feature Command Pipeline
@@ -280,12 +280,20 @@ async function main() {
     try {
       await applyFeature(featureName, projectRoot, language);
 
-      spinner.stop(color.green(`${featureName} installed successfully.`));
+      spinner.stop(
+        color.green(
+          "✔" + color.white(`  ${color.bold(featureName)} installed`),
+        ),
+      );
       p.note(`${color.cyan("npm install")}`, "Next Step");
-      p.outro(`✨ ${featureName} added successfully!`);
+      p.outro(`✨ ${featureName} added!`);
       return;
     } catch (error) {
-      spinner.stop(color.red("Failed to install feature."));
+      spinner.stop(
+        color.red(
+          "✘" + color.white(`  failed to install ${color.bold(featureName)}.`),
+        ),
+      );
       p.note(error.message, "Error");
       process.exit(1);
     }
@@ -311,7 +319,7 @@ async function main() {
           ? Promise.resolve(PROJECT_NAME)
           : p.text({
               message: "What is your project name?",
-              placeholder: "my-next-mui-app (or '.' for current directory)",
+              placeholder: "my-app (or '.' for current directory)",
               validate: validateProjectName,
             }),
 
@@ -319,7 +327,7 @@ async function main() {
         hasYesFlag
           ? Promise.resolve(DEFAULT_LANGUAGE)
           : p.select({
-              message: "Choose your language flavor:",
+              message: "Which language would you like to use?",
               options: LANG,
             }),
 
@@ -327,7 +335,7 @@ async function main() {
         hasYesFlag
           ? Promise.resolve([])
           : p.multiselect({
-              message: "Select optional features:",
+              message: "Which optional features would you like to include?",
               required: false,
               options: FEATURES,
             }),
@@ -336,9 +344,35 @@ async function main() {
         hasYesFlag
           ? Promise.resolve(false)
           : p.confirm({
-              message: "Install packages now?",
+              message: "Would you like to install dependencies now?",
               initialValue: true,
             }),
+
+      confirmConfig: ({ results }) => {
+        // Auto-confirm if -y flag is present
+        if (hasYesFlag) return Promise.resolve(true);
+
+        const formattedFeatures =
+          results.features && results.features.length > 0
+            ? results.features.join(", ")
+            : "None";
+
+        // Display the configuration box
+        p.note(
+          [
+            `Project Name : ${results.name}`,
+            `Language     : ${results.language}`,
+            `Features     : ${formattedFeatures}`,
+            `Auto Install : ${results.autoInstall ? "Yes" : "No"}`,
+          ].join("\n"),
+          "Configuration Summary",
+        );
+
+        return p.confirm({
+          message: "Coutinue?",
+          initialValue: true,
+        });
+      },
     },
     {
       onCancel: () => {
