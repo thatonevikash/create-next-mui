@@ -170,6 +170,7 @@ async function injectProviderToLayout(targetProjectDir, manifest, language) {
 }
 
 async function applyFeature(feature, targetProjectDir, language) {
+  console.log("hello");
   const featureDir = path.resolve(
     __dirname,
     "..",
