@@ -107,11 +107,20 @@ function mergeAndSort(current = {}, incoming = {}) {
   );
 }
 
+function mergeScripts(current = {}, incoming = {}) {
+  return {
+    ...current,
+    ...incoming,
+  };
+}
+
 async function mergePackageJson(targetProjectDir, manifest) {
   const filePath = path.join(targetProjectDir, "package.json");
   try {
     const content = await fs.readFile(filePath, "utf8");
     const json = JSON.parse(content);
+
+    json.scripts = mergeScripts(json.scripts, manifest.scripts);
 
     json.dependencies = mergeAndSort(json.dependencies, manifest.dependencies);
 
@@ -170,7 +179,6 @@ async function injectProviderToLayout(targetProjectDir, manifest, language) {
 }
 
 async function applyFeature(feature, targetProjectDir, language) {
-  console.log("hello");
   const featureDir = path.resolve(
     __dirname,
     "..",

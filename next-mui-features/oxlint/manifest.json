@@ -1,5 +1,8 @@
 {
   "name": "oxlint",
+  "scripts": {
+    "lint": "oxlint && eslint ./src"
+  },
   "devDependencies": {
     "eslint-plugin-oxlint": "^1.76.0",
     "oxlint": "^1.76.0"
