@@ -1,11 +1,18 @@
 {
+  "env": {
+    "node": true,
+    "es2022": true
+  },
   "plugins": ["node", "typescript", "import"],
+  "ignorePatterns": ["next-mui-features", "next-mui-templates", "docs"],
   "categories": {
     "correctness": "error",
     "suspicious": "warn"
   },
   "rules": {
-    "no-console": "warn",
-    "node/no-missing-import": "error"
+    "no-console": "off",
+    "no-undef": "error",
+    "no-useless-escape": "warn",
+    "no-underscore-dangle": "off"
   }
 }
