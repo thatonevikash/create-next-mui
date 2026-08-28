@@ -29,7 +29,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "lint": "oxlint ./src"
+    "lint": "oxlint ./src",
+    "docs:dev": "npm run dev --prefix docs"
   },
   "dependencies": {
     "@clack/prompts": "^1.5.0",
