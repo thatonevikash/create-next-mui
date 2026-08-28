@@ -28,6 +28,7 @@ const hasYesFlag = args.includes("--yes") || args.includes("-y");
 const hasJsFlag = args.includes("--js");
 
 const DEFAULT_LANGUAGE = hasJsFlag ? "js" : "ts";
+const DEFAULT_LINTER = "oxlint";
 
 // ----------------------------------------------------------------------
 
@@ -44,6 +45,24 @@ const LANG = [
   },
 ];
 
+const LINTER = [
+  {
+    value: "oxlint",
+    label: "Oxlint (Recommended)",
+    hint: "Fast lint errors in no-time",
+  },
+  {
+    value: "eslint",
+    label: "ESLint",
+    hint: "Traditional JavaScript / TypeScript linter",
+  },
+  {
+    value: "none",
+    label: "None",
+    hint: "Skip linter configuration",
+  },
+];
+
 const FEATURES = [
   {
     value: "react-query",
@@ -54,11 +73,6 @@ const FEATURES = [
     value: "zustand",
     label: "Zustand",
     hint: "Lightweight global state management",
-  },
-  {
-    value: "oxlint",
-    label: "Oxlint",
-    hint: "Fast lint errors in no-time",
   },
 ];
 
@@ -256,7 +270,13 @@ async function main() {
       process.exit(1);
     }
 
-    if (!FEATURES.some((f) => f.value === featureName)) {
+    const AVAILABLE_FEATURES = [
+      ...FEATURES,
+      { value: "oxlint", label: "Oxlint" },
+      { value: "eslint", label: "ESLint" },
+    ];
+
+    if (!AVAILABLE_FEATURES.some((f) => f.value === featureName)) {
       p.cancel(`Unknown feature "${featureName}".`);
       process.exit(1);
     }
@@ -339,6 +359,14 @@ async function main() {
               options: LANG,
             }),
 
+      linter: () =>
+        hasYesFlag
+          ? Promise.resolve(DEFAULT_LINTER)
+          : p.select({
+              message: "Which linter will you prefer to use?",
+              options: LINTER,
+            }),
+
       features: () =>
         hasYesFlag
           ? Promise.resolve([])
@@ -370,6 +398,7 @@ async function main() {
           [
             `Project Name : ${results.name}`,
             `Language     : ${results.language}`,
+            `Linter       : ${results.linter}`,
             `Features     : ${formattedFeatures}`,
             `Auto Install : ${results.autoInstall ? "Yes" : "No"}`,
           ].join("\n"),
@@ -439,7 +468,12 @@ async function main() {
     // template ships it dot-less, restore it here.
     await restoreGitignore(targetProjectDir);
 
-    // 2. Map and loop over chosen features sequentially
+    // 2. Apply selected linter if any
+    if (project.linter && project.linter !== "none") {
+      await applyFeature(project.linter, targetProjectDir, project.language);
+    }
+
+    // 3. Map and loop over chosen features sequentially
     for (const feature of project.features) {
       await applyFeature(feature, targetProjectDir, project.language);
     }

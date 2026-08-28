@@ -31,10 +31,6 @@ jobs:
         working-directory: ${{ matrix.template-dir }}
         run: npm install
 
-      - name: Check ESLint
-        working-directory: ${{ matrix.template-dir }}
-        run: npm run lint
-
       - name: Run Next.js Production Build
         working-directory: ${{ matrix.template-dir }}
         run: npm run build
