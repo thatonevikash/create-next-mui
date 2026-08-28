@@ -7,7 +7,12 @@ export function runner(command, args, cwd) {
     const child = spawn(command, args, {
       cwd,
       shell: process.platform === "win32",
-      stdio: "inherit",
+      stdio: "pipe",
+    });
+
+    let stderr = "";
+    child.stderr.on("data", (chunk) => {
+      stderr += chunk.toString();
     });
 
     child.on("error", reject);
@@ -16,7 +21,9 @@ export function runner(command, args, cwd) {
       if (code === 0) {
         resolve();
       } else {
-        reject(new Error(`${command} exited with code ${code}`));
+        reject(
+          new Error(stderr.trim() || `${command} exited with code ${code}`),
+        );
       }
     });
   });
