@@ -6,6 +6,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { runner } from "./utils/install-packages.js";
+
 // ----------------------------------------------------------------------
 
 const __filename = fileURLToPath(import.meta.url);
@@ -26,6 +28,7 @@ const hasYesFlag = args.includes("--yes") || args.includes("-y");
 const hasJsFlag = args.includes("--js");
 
 const DEFAULT_LANGUAGE = hasJsFlag ? "js" : "ts";
+const DEFAULT_LINTER = "oxlint";
 
 // ----------------------------------------------------------------------
 
@@ -42,6 +45,24 @@ const LANG = [
   },
 ];
 
+const LINTER = [
+  {
+    value: "oxlint",
+    label: "Oxlint (Recommended)",
+    hint: "Fast lint errors in no-time",
+  },
+  {
+    value: "eslint",
+    label: "ESLint",
+    hint: "Traditional JavaScript / TypeScript linter",
+  },
+  {
+    value: "none",
+    label: "None",
+    hint: "Skip linter configuration",
+  },
+];
+
 const FEATURES = [
   {
     value: "react-query",
@@ -52,11 +73,6 @@ const FEATURES = [
     value: "zustand",
     label: "Zustand",
     hint: "Lightweight global state management",
-  },
-  {
-    value: "oxlint",
-    label: "Oxlint",
-    hint: "Fast lint errors in no-time",
   },
 ];
 
@@ -96,21 +112,36 @@ async function updateProjectName(targetProjectDir, packageName) {
   }
 }
 
+function mergeAndSort(current = {}, incoming = {}) {
+  return Object.fromEntries(
+    Object.entries({
+      ...current,
+      ...incoming,
+    }).sort(([a], [b]) => a.localeCompare(b)),
+  );
+}
+
+function mergeScripts(current = {}, incoming = {}) {
+  return {
+    ...current,
+    ...incoming,
+  };
+}
+
 async function mergePackageJson(targetProjectDir, manifest) {
   const filePath = path.join(targetProjectDir, "package.json");
   try {
     const content = await fs.readFile(filePath, "utf8");
     const json = JSON.parse(content);
 
-    json.dependencies = {
-      ...json.dependencies,
-      ...(manifest.dependencies || {}),
-    };
+    json.scripts = mergeScripts(json.scripts, manifest.scripts);
 
-    json.devDependencies = {
-      ...json.devDependencies,
-      ...(manifest.devDependencies || {}),
-    };
+    json.dependencies = mergeAndSort(json.dependencies, manifest.dependencies);
+
+    json.devDependencies = mergeAndSort(
+      json.devDependencies,
+      manifest.devDependencies,
+    );
 
     await fs.writeFile(filePath, `${JSON.stringify(json, null, 2)}\n`);
   } catch (error) {
@@ -225,7 +256,7 @@ async function restoreGitignore(targetProjectDir) {
 async function main() {
   console.clear();
 
-  p.intro(color.bgBlue(color.white("  create-next-mui  ")));
+  p.intro(color.bgBlue(color.white(" Welcome to create-next-mui ")));
 
   // ----------------------------------------------------------------------
   // Add Feature Command Pipeline
@@ -239,7 +270,13 @@ async function main() {
       process.exit(1);
     }
 
-    if (!FEATURES.some((f) => f.value === featureName)) {
+    const AVAILABLE_FEATURES = [
+      ...FEATURES,
+      { value: "oxlint", label: "Oxlint" },
+      { value: "eslint", label: "ESLint" },
+    ];
+
+    if (!AVAILABLE_FEATURES.some((f) => f.value === featureName)) {
       p.cancel(`Unknown feature "${featureName}".`);
       process.exit(1);
     }
@@ -271,12 +308,20 @@ async function main() {
     try {
       await applyFeature(featureName, projectRoot, language);
 
-      spinner.stop(color.green(`${featureName} installed successfully.`));
+      spinner.stop(
+        color.green(
+          "✔" + color.white(`  ${color.bold(featureName)} installed`),
+        ),
+      );
       p.note(`${color.cyan("npm install")}`, "Next Step");
-      p.outro(`✨ ${featureName} added successfully!`);
+      p.outro(`✨ ${featureName} added!`);
       return;
     } catch (error) {
-      spinner.stop(color.red("Failed to install feature."));
+      spinner.stop(
+        color.red(
+          "✘" + color.white(`  failed to install ${color.bold(featureName)}.`),
+        ),
+      );
       p.note(error.message, "Error");
       process.exit(1);
     }
@@ -302,7 +347,7 @@ async function main() {
           ? Promise.resolve(PROJECT_NAME)
           : p.text({
               message: "What is your project name?",
-              placeholder: "my-next-mui-app (or '.' for current directory)",
+              placeholder: "my-app (or '.' for current directory)",
               validate: validateProjectName,
             }),
 
@@ -310,22 +355,65 @@ async function main() {
         hasYesFlag
           ? Promise.resolve(DEFAULT_LANGUAGE)
           : p.select({
-              message: "Choose your language flavor:",
+              message: "Which language would you like to use?",
               options: LANG,
+            }),
+
+      linter: () =>
+        hasYesFlag
+          ? Promise.resolve(DEFAULT_LINTER)
+          : p.select({
+              message: "Which linter will you prefer to use?",
+              options: LINTER,
             }),
 
       features: () =>
         hasYesFlag
           ? Promise.resolve([])
           : p.multiselect({
-              message: "Select optional features:",
+              message: "Which optional features would you like to include?",
               required: false,
               options: FEATURES,
             }),
+
+      autoInstall: () =>
+        hasYesFlag
+          ? Promise.resolve(false)
+          : p.confirm({
+              message: "Would you like to install dependencies now?",
+              initialValue: true,
+            }),
+
+      confirmConfig: ({ results }) => {
+        // Auto-confirm if -y flag is present
+        if (hasYesFlag) return Promise.resolve(true);
+
+        const formattedFeatures =
+          results.features && results.features.length > 0
+            ? results.features.join(", ")
+            : "None";
+
+        // Display the configuration box
+        p.note(
+          [
+            `Project Name : ${results.name}`,
+            `Language     : ${results.language}`,
+            `Linter       : ${results.linter}`,
+            `Features     : ${formattedFeatures}`,
+            `Auto Install : ${results.autoInstall ? "Yes" : "No"}`,
+          ].join("\n"),
+          "Configuration Summary",
+        );
+
+        return p.confirm({
+          message: "Coutinue?",
+          initialValue: true,
+        });
+      },
     },
     {
       onCancel: () => {
-        p.cancel("Scaffolding cancelled. See you next time!");
+        p.cancel("Building cancelled. See you next time!");
         process.exit(0);
       },
     },
@@ -380,13 +468,25 @@ async function main() {
     // template ships it dot-less, restore it here.
     await restoreGitignore(targetProjectDir);
 
-    // 2. Map and loop over chosen features sequentially
+    // 2. Apply selected linter if any
+    if (project.linter && project.linter !== "none") {
+      await applyFeature(project.linter, targetProjectDir, project.language);
+    }
+
+    // 3. Map and loop over chosen features sequentially
     for (const feature of project.features) {
       await applyFeature(feature, targetProjectDir, project.language);
     }
 
     // 3. Finalize package.json configuration naming
     await updateProjectName(targetProjectDir, packageName);
+
+    // 4. Auto install packages
+    if (project.autoInstall) {
+      s.message("Installing packages...");
+
+      await runner("npm", ["install"], targetProjectDir);
+    }
 
     s.stop(color.green("Workspace built successfully!"));
   } catch (error) {
