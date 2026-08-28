@@ -1,10 +1,10 @@
 {
   "name": "oxlint",
   "scripts": {
-    "lint": "oxlint && eslint ./src"
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix"
   },
   "devDependencies": {
-    "eslint-plugin-oxlint": "^1.76.0",
     "oxlint": "^1.76.0"
   },
   "files": [
@@ -16,11 +16,6 @@
     {
       "src": "source/.oxlintrc.json",
       "dest": ".oxlintrc.json",
-      "root": true
-    },
-    {
-      "src": "source/eslint.config.mjs",
-      "dest": "eslint.config.mjs",
       "root": true
     }
   ]

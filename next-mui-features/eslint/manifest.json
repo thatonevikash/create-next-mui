@@ -1,0 +1,20 @@
+{
+  "name": "eslint",
+  "scripts": {
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix"
+  },
+  "devDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "eslint-plugin-perfectionist": "^4.15.1",
+    "eslint-plugin-unused-imports": "^4.3.0"
+  },
+  "files": [
+    {
+      "src": "source/eslint.config.mjs",
+      "dest": "eslint.config.mjs",
+      "root": true
+    }
+  ]
+}
