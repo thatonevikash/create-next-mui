@@ -1,10 +1,10 @@
 {
   "name": "create-next-mui",
   "version": "0.2.7",
-  "description": "Skip the manual setup steps to start with MUI for your upcoming projects",
+  "description": "The fastest way to start with Nextjs + MUI | Skip repetitive setup and start building with a production-ready foundation in seconds.",
   "keywords": [
     "nextjs",
-    "mui",
+    "material-ui",
     "create-next-mui"
   ],
   "homepage": "https://create-next-mui.vercel.app/",

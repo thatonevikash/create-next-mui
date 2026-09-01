@@ -42,12 +42,11 @@
 
 Starting every new **Next.js + Material UI** project often means repeating the same setup:
 
-- Install Material UI
-- Configure Theme Provider
-- Set up Emotion
-- Configure ESLint
-- Organize folders
-- Install common libraries
+- Install Material UI & Emotion
+- Configure Material UI App Router integration & Theme Provider
+- Set up Linters (Oxlint / ESLint Flat Config)
+- Organize scalable directory structure
+- Configure state management & data fetching tools
 
 **create-next-mui** automates all of that.
 
@@ -57,20 +56,20 @@ Generate a clean, scalable, production-ready project so you can focus on buildin
 
 # 🚀 Features
 
-- ⚡ Next.js App Router
-- 🎨 Material UI v9
-- 📦 TypeScript & JavaScript templates
-- 🧹 ESLint Flat Config
-- 📁 Scalable project structure
-- 🧩 Plugin system
-- 💚 Zero global installation
-- 🚀 Production-ready setup
+- ⚡ **Next.js App Router** (Next.js 16)
+- 🎨 **Material UI v9** (`@mui/material-nextjs` integration)
+- 📦 **TypeScript & JavaScript** templates
+- 🔍 **Linter Choices**: Fast Oxlint or ESLint Flat Config
+- 🧩 **Modular Feature & Plugin System**
+- 📁 **Scalable project structure**
+- ⚡ **Automated dependency installation** option
+- 💚 **Zero global installation required**
 
 ---
 
 # ⚡ Quick Start
 
-Create a new project.
+Create a new project:
 
 ```bash
 npx create-next-mui my-app
@@ -79,14 +78,14 @@ npx create-next-mui my-app
 or
 
 ```bash
-npm init next-mui
+npm init next-mui my-app
 ```
 
-Then start developing.
+Then start developing:
 
 ```bash
 cd my-app
-npm install
+npm install # (if not auto-installed)
 npm run dev
 ```
 
@@ -94,35 +93,33 @@ npm run dev
 
 # 🎯 Interactive Setup
 
-Run the CLI without a project name.
+Run the CLI without arguments or with a project name to start the interactive prompt flow:
 
 ```bash
 npx create-next-mui
 ```
 
-The CLI will guide you through each step interactively.
+The CLI will guide you step-by-step:
 
-Current options include:
-
-### Project Name
-
-Choose your application name.
-
-### Language
-
-- TypeScript (Recommended)
-- JavaScript
-
-### Optional Features
-
-- Zustand
-- React Query (TanStack Query)
+1. **Project Name**: Choose your directory name (or `.` for the current directory)
+2. **Language**:
+   - `TypeScript` (Recommended)
+   - `JavaScript`
+3. **Linter**:
+   - `Oxlint` (Recommended - fast lint checks)
+   - `ESLint` (Flat Config with perfectionist & unused-imports rules)
+   - `None` (Skip linter configuration)
+4. **Optional Features**:
+   - `React Query` (TanStack Query setup and provider)
+   - `Zustand` (Global state management store example)
+5. **Auto Install**: Choose whether to install packages immediately
+6. **Summary Confirmation**: Review choices before scaffolding
 
 ---
 
 # ⚡ Non-Interactive Mode
 
-Perfect for automation, CI/CD pipelines, or quickly generating projects.
+Ideal for automation, scripts, and CI/CD pipelines.
 
 ```bash
 npx create-next-mui my-app --yes
@@ -134,36 +131,46 @@ or
 npx create-next-mui my-app -y
 ```
 
-This automatically:
+Flag options:
 
-- Uses the provided project name
-- Selects the TypeScript template
-- Skips all prompts
-- Generates the project immediately
+- `--yes` / `-y`: Skips prompts, defaults to TypeScript, Oxlint, and skips auto installation.
+- `--js`: When combined with `-y`, defaults to JavaScript template.
+
+```bash
+npx create-next-mui my-app -y --js
+```
 
 ---
 
-# 🧩 Plugin System
+# 🧩 Feature & Plugin CLI
 
-One of the biggest advantages of **create-next-mui** is its plugin system.
+Add features and tools directly to an existing Next.js + MUI project created with `create-next-mui`:
 
-Instead of generating dozens of templates, install only the features you need.
-
-## Install Zustand
-
-```bash
-npx create-next-mui add zustand
-```
-
-## Install React Query
+### React Query (TanStack Query)
 
 ```bash
 npx create-next-mui add react-query
 ```
 
-Plugins integrate directly into your existing project with the recommended configuration.
+### Zustand
 
-More plugins are planned.
+```bash
+npx create-next-mui add zustand
+```
+
+### Oxlint
+
+```bash
+npx create-next-mui add oxlint
+```
+
+### ESLint
+
+```bash
+npx create-next-mui add eslint
+```
+
+Plugins automatically configure dependencies, copy required source files, and inject providers into your root layout.
 
 ---
 
@@ -173,136 +180,92 @@ More plugins are planned.
 
 Recommended for most projects.
 
-Includes:
-
-- TypeScript
-- Strict typing
-- Material UI theme typings
-- ESLint Flat Config
+- Full TypeScript support with strict types
+- Material UI theme definitions & Next.js App Router setup
+- Pre-configured `tsconfig.json`
 
 ---
 
 ## JavaScript
 
-Perfect if you prefer JavaScript.
+Ideal for vanilla JavaScript workflows.
 
-Includes:
-
-- Modern JavaScript
-- Material UI
-- ESLint Flat Config
+- Modern ECMAScript setup
+- Material UI App Router configuration
+- Clean folder structure
 
 ---
 
-# 📁 Generated Project Structure
+# 📁 Project Structure
 
 ```text
 my-app/
 ├── src/
 │   ├── app/
+│   │   ├── layout.tsx (or .jsx)
+│   │   └── page.tsx (or .jsx)
 │   ├── components/
-│   ├── theme/
-│   └── ...
-├── eslint.config.mjs
-├── next.config.js
+│   └── theme/
 ├── package.json
+├── next.config.ts (or .js)
 └── README.md
 ```
-
-The generated structure is intentionally simple, scalable, and easy to maintain.
 
 ---
 
 # 📚 What's Included?
 
-Every generated project comes preconfigured with:
-
-| Feature                      | Description                       |
-| ---------------------------- | --------------------------------- |
-| Next.js App Router           | Latest routing architecture       |
-| Material UI                  | Ready-to-use MUI setup            |
-| Theme Provider               | Already configured                |
-| Emotion                      | Integrated automatically          |
-| ESLint Flat Config           | Modern linting configuration      |
-| eslint-plugin-perfectionist  | Organized imports & sorting       |
-| eslint-plugin-unused-imports | Cleaner codebase                  |
-| Production Structure         | Organized folders for scalability |
-
-Development artifacts like `.next`, `node_modules`, and build caches are excluded from generated projects.
+| Feature                  | Description                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------ |
+| **Next.js App Router**   | Latest App Router architecture                                                 |
+| **Material UI v9**       | Material UI integration with `@mui/material-nextjs`                            |
+| **Theme Configuration**  | Pre-configured theme and ThemeProvider                                         |
+| **Emotion**              | Integrated CSS-in-JS support                                                   |
+| **Linters**              | Oxlint or ESLint Flat Config options                                           |
+| **State / Data Plugins** | Zustand & TanStack React Query integration support                             |
+| **Clean Output**         | Build artifacts, `.next`, caches, and lockfiles are omitted during scaffolding |
 
 ---
 
 # 🖥 CLI Reference
 
-| Command                      | Description                  |
-| ---------------------------- | ---------------------------- |
-| `npx create-next-mui`        | Interactive project creation |
-| `npx create-next-mui my-app` | Create a new project         |
-| `npm init next-mui`          | Alternative project creation |
-| `--yes`                      | Skip prompts                 |
-| `-y`                         | Short form of `--yes`        |
-| `add zustand`                | Install Zustand plugin       |
-| `add react-query`            | Install React Query plugin   |
-
----
-
-# 🛣 Roadmap
-
-Current progress.
-
-- ✅ JavaScript template
-- ✅ TypeScript template
-- ✅ Zustand plugin
-- ✅ React Query plugin
-
-Planned improvements.
-
-- ⏳ Redux Toolkit plugin
-- ⏳ Authentication plugins
-- ⏳ Testing plugins
-- ⏳ More official plugins
-- ⏳ Additional starter templates
+| Command                               | Description                           |
+| ------------------------------------- | ------------------------------------- |
+| `npx create-next-mui`                 | Interactive project creation          |
+| `npx create-next-mui <project-name>`  | Create a project with a specific name |
+| `npm init next-mui`                   | Alternative project creation command  |
+| `-y`, `--yes`                         | Skip prompts and use defaults         |
+| `--js`                                | Use JavaScript template with `-y`     |
+| `npx create-next-mui add react-query` | Add React Query to current project    |
+| `npx create-next-mui add zustand`     | Add Zustand to current project        |
+| `npx create-next-mui add oxlint`      | Add Oxlint to current project         |
+| `npx create-next-mui add eslint`      | Add ESLint to current project         |
 
 ---
 
 # 🤝 Contributing
 
-Contributions are always welcome.
+Contributions are always welcome!
 
-Whether you'd like to:
-
-- Report bugs
-- Suggest new features
-- Improve documentation
+- Report bugs & issues
+- Suggest features or improvements
 - Submit pull requests
 
-Feel free to open an issue or create a PR.
-
-Every contribution helps make **create-next-mui** better.
+Feel free to open an issue or pull request on [GitHub](https://github.com/thatonevikash/create-next-mui).
 
 ---
 
 # 📖 Learn More
 
-Read the development journey and release articles.
-
 - 🚀 [Introducing create-next-mui v0.1.0](https://dev.to/thatonevikash/stop-manual-boilerplate-scaffolding-nextjs-with-mui-1l60)
-
 - 🤩 [create-next-mui v0.2.0 — Plugin Support](https://dev.to/thatonevikash/create-next-mui-v020-is-here-now-with-plugin-support-4l70)
+- 🌐 [Website / Documentation](https://create-next-mui.vercel.app/)
 
 ---
 
 # ⭐ Support the Project
 
-If **create-next-mui** helps you build projects faster, consider supporting it.
-
-- ⭐ Star the repository
-- 🐞 Report issues
-- 💡 Suggest new ideas
-- 🤝 Contribute to the project
-- ❤️ Share it with other developers
-
-Your support helps the project grow.
+If **create-next-mui** helps you build projects faster, consider giving it a ⭐ on [GitHub](https://github.com/thatonevikash/create-next-mui)!
 
 ---
 
