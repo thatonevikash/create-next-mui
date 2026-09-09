@@ -1,115 +1,104 @@
 ---
-title: Plugins
-description: Extend your project with official plugins after creation or during the interactive setup.
+title: Feature Installers
+description: Add official tooling and library setup to create-next-mui projects.
 icon: Plug
 ---
 
-Official plugins let you extend a generated project without manually configuring common libraries.
+# Feature Installers
 
-Plugins can be installed in two ways:
+Feature installers extend a generated project without requiring a separate template for every stack combination.
 
-- During the interactive project setup.
-- At any time after project creation using the CLI.
+An installer can:
 
-This approach keeps the base template lightweight while allowing you to add features only when you need them.
+- Copy source or configuration files
+- Merge dependencies into `package.json`
+- Add or update npm scripts
+- Insert imports into `src/app/layout`
+- Wrap the root layout `children` with a provider
 
----
-
-## Supported Plugins
-
-| Plugin        | Description                                                                        |
-| ------------- | ---------------------------------------------------------------------------------- |
-| `zustand`     | Adds a lightweight and scalable state management solution.                         |
-| `react-query` | Configures TanStack Query for server state management, caching, and data fetching. |
-
-More official plugins will be added in future releases.
-
----
-
-## Install a Plugin
-
-Use the `add` command to install an official plugin into an existing project.
+Run installers during interactive setup or later from the root of an existing project.
 
 ```bash
-npx create-next-mui@latest add <plugin-name>
+npx create-next-mui@latest add <feature>
 ```
 
-### Examples
+After installing a feature, run `npm install`.
 
-Install Zustand.
+## Supported Features
+
+| Feature | Category | What it adds |
+| --- | --- | --- |
+| `oxlint` | Linting | Oxlint config, dependency, and lint scripts |
+| `eslint` | Linting | ESLint flat config, dependencies, and lint scripts |
+| `react-query` | Data fetching | TanStack Query provider, devtools, and layout wrapper |
+| `zustand` | State management | Zustand dependency and starter counter store |
+
+Interactive project creation shows React Query and Zustand as optional features. Linting is selected separately through the linter prompt.
+
+## Oxlint
+
+Oxlint is the default linter for new projects and for `--yes` scaffolds.
+
+Install it in an existing project:
 
 ```bash
-npx create-next-mui@latest add zustand
+npx create-next-mui@latest add oxlint
 ```
 
-Install TanStack Query.
+It adds:
+
+- `oxlint`
+- `.oxlintignore`
+- `.oxlintrc.json`
+- `npm run lint`
+- `npm run lint:fix`
+
+## ESLint
+
+Choose ESLint during interactive setup when you prefer the traditional ESLint workflow.
+
+Install it in an existing project:
+
+```bash
+npx create-next-mui@latest add eslint
+```
+
+It adds:
+
+- `eslint`
+- `eslint-config-next`
+- `eslint-plugin-perfectionist`
+- `eslint-plugin-unused-imports`
+- `eslint.config.mjs`
+- `npm run lint`
+- `npm run lint:fix`
+
+## React Query
+
+The React Query installer configures TanStack Query for application-wide server state.
+
+Install it:
 
 ```bash
 npx create-next-mui@latest add react-query
 ```
 
-<Callout type="tip" title="Interactive Setup">
-  When creating a new project, the interactive CLI lets you select plugins
-  during the setup process, so they are configured automatically before your
-  project is generated.
-</Callout>
+It adds:
 
----
+- `@tanstack/react-query`
+- `@tanstack/react-query-devtools`
+- `src/lib/tanstack-provider.tsx` or `src/lib/tanstack-provider.jsx`
+- A `TanStackProvider` import in the root layout
+- A provider wrapper around `{children}`
 
-## Zustand
-
-The Zustand plugin configures a ready-to-use state management setup.
-
-### What gets added?
-
-- Zustand dependency
-- Example counter store
-- Recommended project structure
-
-Example store:
-
-```tsx
-import { create } from "zustand";
-
-interface CounterStore {
-  count: number;
-  increment(): void;
-  decrement(): void;
-  reset(): void;
-}
-
-export const useCounterStore = create<CounterStore>((set) => ({
-  count: 0,
-  increment: () => set((state) => ({ count: state.count + 1 })),
-  decrement: () => set((state) => ({ count: state.count - 1 })),
-  reset: () => set({ count: 0 }),
-}));
-```
-
-The generated store serves as a starting point and can be modified to suit your application's needs.
-
----
-
-## TanStack Query
-
-The React Query plugin installs and configures **TanStack Query** with sensible defaults for Next.js applications.
-
-### What gets added?
-
-- TanStack Query dependencies
-- Query Client configuration
-- Provider component
-- React Query Devtools
-- Layout integration
-
-Generated provider:
+Generated TypeScript provider:
 
 ```tsx
 "use client";
 
 import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export function TanStackProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -132,27 +121,43 @@ export function TanStackProvider({ children }: { children: React.ReactNode }) {
 }
 ```
 
-The plugin also updates your root layout by wrapping your application with the generated provider.
+## Zustand
 
-```tsx
-<ThemeProvider>
-  <TanStackProvider>{children}</TanStackProvider>
-</ThemeProvider>
+The Zustand installer adds a starter store that you can replace or expand as your app grows.
+
+Install it:
+
+```bash
+npx create-next-mui@latest add zustand
 ```
 
-This ensures TanStack Query is available throughout your application without requiring any additional configuration.
+It adds:
 
----
+- `zustand`
+- `src/stores/counter-store.tsx` or `src/stores/counter-store.jsx`
 
-## Why Plugins?
+Generated TypeScript store:
 
-Instead of maintaining multiple project templates, **create-next-mui** uses an official plugin system.
+```tsx
+import { create } from "zustand";
 
-This provides several advantages:
+interface CounterStore {
+  count: number;
+  increment(): void;
+  decrement(): void;
+  reset(): void;
+}
 
-- Install only what you need.
-- Keep generated projects lightweight.
-- Follow the recommended setup for each library.
-- Add new features to existing projects without recreating them.
+export const useCounterStore = create<CounterStore>((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+  decrement: () => set((state) => ({ count: state.count - 1 })),
+  reset: () => set({ count: 0 }),
+}));
+```
 
-As the project evolves, additional official plugins will continue to expand the capabilities of the CLI.
+## Existing Projects
+
+The `add` command expects to run inside a project directory with `package.json`.
+
+For TypeScript projects, the CLI checks for `tsconfig.json` and installs `.tsx` files. If no `tsconfig.json` is found, it installs the JavaScript variant.

@@ -1,123 +1,108 @@
 ---
-title: Options
-description: Learn about the supported commands, arguments, and flags available in create-next-mui.
+title: CLI Reference
+description: Commands, arguments, prompts, and flags supported by create-next-mui.
 ---
 
-import { ArrowUpRight } from "lucide-react";
+# CLI Reference
 
-The CLI provides a small set of commands and flags to help you scaffold projects faster or extend existing ones with official plugins.
+`create-next-mui` has two primary workflows: create a new project, or add an official feature installer to an existing project.
 
-## Project Name
+## Commands
 
-Provide a project name to create a new application.
+| Command | Description |
+| --- | --- |
+| `create-next-mui` | Start interactive project creation |
+| `create-next-mui <project-name>` | Create a project in the named directory |
+| `create-next-mui .` | Create a project in the current empty directory |
+| `create-next-mui add <feature>` | Install an official feature in the current project |
 
-```bash
-npx create-next-mui@latest <project-name>
-```
-
-### Example
+The same commands can be run through `npx`:
 
 ```bash
 npx create-next-mui@latest my-app
 ```
 
-This creates a new project inside the `my-app` directory.
+## Project Arguments
 
-<Callout type="tip" title="Current Directory">
-Use `.` as the project name to scaffold the project in the current working directory.
+### `<project-name>`
+
+Creates a project in a new directory:
+
+```bash
+npx create-next-mui@latest my-app
+```
+
+Project names can contain letters, numbers, dashes, and underscores.
+
+### `.`
+
+Creates the project in the current directory:
 
 ```bash
 npx create-next-mui@latest .
 ```
 
-Make sure the directory is empty before running the command.
+The current directory must be empty. The generated package name is based on the current folder name.
 
-</Callout>
+## Flags
 
----
+| Flag | Description |
+| --- | --- |
+| `--yes` | Skip prompts and use defaults |
+| `-y` | Alias for `--yes` |
+| `--js` | Use JavaScript as the default language when combined with `--yes` |
 
-## Plugin Installation
-
-Install an official plugin into an existing project.
-
-```bash
-npx create-next-mui@latest add <plugin-name>
-```
-
-### Examples
-
-Install Zustand.
-
-```bash
-npx create-next-mui@latest add zustand
-```
-
-Install TanStack Query.
-
-```bash
-npx create-next-mui@latest add react-query
-```
-
-Supported plugins are documented in the [Plugins<ArrowUpRight className="inline-flex h-4 w-4" />](../plugin) section.
-
----
-
-## Templates
-
-Choose the language that best fits your project during the interactive setup.
-
-| Template       | Description                                                                                 |
-| -------------- | ------------------------------------------------------------------------------------------- |
-| **TypeScript** | Recommended for most projects. Includes strict typing and an improved developer experience. |
-| **JavaScript** | A lightweight option for developers who prefer JavaScript.                                  |
-
----
-
-## Official Plugins
-
-Official plugins can be installed at any time after your project has been created.
-
-### Zustand
-
-A lightweight state management library for React applications.
-
-Recommended when your application requires shared or complex client-side state.
-
-### TanStack Query
-
-Formerly known as **React Query**.
-
-Provides powerful tools for:
-
-- Server state management
-- Data fetching
-- Background refetching
-- Automatic caching
-- Request synchronization
-
----
-
-## Supported Flags
-
-### `--yes`
-
-Skips all interactive prompts and generates the project using the default configuration.
+### Non-interactive TypeScript
 
 ```bash
 npx create-next-mui@latest my-app --yes
 ```
 
-### `-y`
+This creates a TypeScript project with Oxlint and no optional features.
 
-Short alias for `--yes`.
+### Non-interactive JavaScript
 
 ```bash
-npx create-next-mui@latest my-app -y
+npx create-next-mui@latest my-app --yes --js
 ```
 
-These flags are especially useful for:
+This creates a JavaScript project with Oxlint and no optional features.
 
-- CI/CD pipelines
-- Automation scripts
-- Testing
-- Rapid project generation
+## Interactive Prompts
+
+When `--yes` is not provided, the CLI asks for:
+
+| Prompt | Choices |
+| --- | --- |
+| Project name | Any valid project name, or `.` |
+| Language | TypeScript or JavaScript |
+| Linter | Oxlint, ESLint, or none |
+| Optional features | React Query, Zustand, both, or none |
+| Auto install | Yes or no |
+
+Before scaffolding starts, the CLI shows a configuration summary and asks for confirmation.
+
+## Add Command
+
+Install a feature from the root of an existing project:
+
+```bash
+npx create-next-mui@latest add <feature>
+```
+
+Supported feature names:
+
+| Feature | Adds |
+| --- | --- |
+| `oxlint` | Oxlint dependency, config files, `lint`, and `lint:fix` scripts |
+| `eslint` | ESLint flat config, ESLint dependencies, `lint`, and `lint:fix` scripts |
+| `react-query` | TanStack Query provider, dependencies, and root layout wrapper |
+| `zustand` | Zustand dependency and starter counter store |
+
+The command must be run in a directory that already contains `package.json`. TypeScript projects are detected by the presence of `tsconfig.json`; otherwise the JavaScript files are installed.
+
+After using `add`, run:
+
+```bash
+npm install
+```

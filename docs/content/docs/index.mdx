@@ -1,110 +1,80 @@
 ---
-title: Getting Started
-description: Get started with create-next-mui to scaffold production-ready Next.js + Material UI applications in seconds.
+title: Overview
+description: Learn what create-next-mui generates and when to use it.
 icon: Rocket
 ---
 
-import { ArrowUpRight } from "lucide-react";
+# create-next-mui
 
-# Welcome 👋
+`create-next-mui` is a Node CLI for creating Next.js App Router projects with Material UI already wired in. It gives you a clean application shell, lets you choose TypeScript or JavaScript, and can install common project features during setup or later with the `add` command.
 
-**create-next-mui** is a CLI that scaffolds **production-ready Next.js + Material UI** applications with sensible defaults, modern tooling, and an extensible plugin system.
+The generated app stays close to the standard Next.js project model, so you can keep using familiar Next.js, React, and MUI documentation after the project is created.
 
-Instead of spending time configuring a new project, you can start building immediately.
+## What It Creates
 
----
+Every new project starts from one of the base templates in this repository.
 
-## Why create-next-mui?
+| Area | Included setup |
+| --- | --- |
+| Framework | Next.js App Router |
+| UI | Material UI, Emotion, MUI App Router cache provider, CSS baseline |
+| Theme | Local theme files under `src/theme` |
+| Routing | `src/app` with a starter page and root layout |
+| Imports | `@/*` path alias for source imports |
+| Language | TypeScript by default, JavaScript when selected |
 
-Setting up a new project often means repeating the same steps every time:
+The CLI also rewrites the generated `package.json` name to match the project folder or the current directory name when you scaffold with `.`.
 
-- Installing Material UI
-- Configuring the Theme Provider
-- Setting up Emotion
-- Organizing the project structure
-- Configuring ESLint
-- Adding commonly used libraries
+## Setup Flow
 
-**create-next-mui** automates this setup so you can focus on building your application—not your boilerplate.
+Interactive setup asks for the decisions that change the generated project:
 
----
+1. Project name
+2. Language: TypeScript or JavaScript
+3. Linter: Oxlint, ESLint, or none
+4. Optional features: React Query and/or Zustand
+5. Whether to run `npm install` immediately
 
-## What You Get
+For automation, `--yes` skips the prompts and uses the current defaults: TypeScript, Oxlint, no optional features, and no automatic install.
 
-Every generated project comes preconfigured with everything needed to start developing.
+## Feature Installers
 
-### ⚡ Modern Foundation
+Feature installers are small, official recipes that copy files, merge dependencies, add scripts, and update the root layout when needed.
 
-- Next.js App Router
-- Material UI
-- TypeScript or JavaScript templates
-- Production-ready folder structure
+| Feature | Purpose |
+| --- | --- |
+| `oxlint` | Adds Oxlint config and lint scripts |
+| `eslint` | Adds ESLint flat config and lint scripts |
+| `react-query` | Adds TanStack Query provider and dependencies |
+| `zustand` | Adds a starter Zustand counter store |
 
-### 🎨 Developer Experience
+Use installers during interactive project creation, or run `npx create-next-mui@latest add <feature>` inside an existing project.
 
-- ESLint Flat Config
-- Theme Provider
-- Emotion integration
-- Organized project architecture
+## Project Shape
 
-### 🧩 Extend with Plugins
+A generated TypeScript project has this general shape before optional features are added:
 
-Install official plugins whenever you need them.
+```text
+my-app/
+|-- public/
+|-- src/
+|   |-- app/
+|   |   |-- globals.css
+|   |   |-- layout.tsx
+|   |   `-- page.tsx
+|   |-- config-global.ts
+|   |-- lib/
+|   |   `-- router-link/
+|   |-- sections/
+|   |   `-- home/
+|   `-- theme/
+|-- next.config.ts
+|-- package.json
+`-- tsconfig.json
+```
 
-Currently available:
+JavaScript projects use the same structure with `.js` and `.jsx` files plus `jsconfig.json`.
 
-- Zustand
-- TanStack Query
+## Next Step
 
-More plugins are planned.
-
----
-
-## Features
-
-- ⚡ [Next.js<ArrowUpRight className="inline-flex h-4 w-4" />](https://nextjs.org/) App Router
-- 🎨 [Material UI<ArrowUpRight className="inline-flex h-4 w-4" />](https://mui.com/material-ui/getting-started/)
-- 📦 TypeScript & JavaScript templates
-- 🧩 Plugin system
-- 🪝 [Zustand<ArrowUpRight className="inline-flex h-4 w-4" />](https://zustand.docs.pmnd.rs/learn/getting-started/introduction)
-- 🪝 [TanStack Query<ArrowUpRight className="inline-flex h-4 w-4" />](https://tanstack.com/query/latest/docs/framework/react/installation)
-- 🧹 ESLint Flat Config
-- 📁 Scalable project structure
-- 💚 Zero global installation
-
----
-
-## Who Is It For?
-
-Whether you're starting a personal project or building a production application, **create-next-mui** helps you get up and running quickly.
-
-It's a great fit for:
-
-- Individual developers
-- Freelancers
-- Startups
-- Teams
-- Open Source projects
-- Rapid prototyping
-
----
-
-## Philosophy
-
-**create-next-mui** follows a simple philosophy:
-
-- Keep the setup minimal.
-- Follow official best practices.
-- Generate clean and maintainable code.
-- Avoid unnecessary abstractions.
-- Stay close to the Next.js ecosystem.
-
-The generated project is yours to own and customize.
-
----
-
-## What's Next?
-
-Continue with the installation guide to scaffold your first project.
-
-Happy building! 🚀
+Start with [Quick Start](./quick-start) to create and run your first project.
