@@ -1,7 +1,7 @@
 export function HeroImage() {
   return (
     <svg
-      className="scale-100"
+      className="h-auto w-full max-w-[500px] grayscale saturate-0"
       width="500"
       height="429"
       viewBox="0 0 616 429"

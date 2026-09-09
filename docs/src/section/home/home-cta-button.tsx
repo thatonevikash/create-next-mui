@@ -5,7 +5,7 @@ export function CTAButtons() {
     <div className="mt-6 flex flex-wrap items-center gap-4 text-[14px]">
       <Link
         href="/docs"
-        className="group relative inline-flex items-center justify-center gap-2 rounded-xl bg-zinc-900 px-5 py-2.5 font-semibold text-zinc-50 transition-all duration-200 ease-out hover:bg-zinc-800 hover:shadow-md active:scale-[0.98] dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-zinc-200"
+        className="group relative inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-5 py-2.5 font-semibold text-white transition-all duration-200 ease-out hover:bg-slate-700 hover:shadow-md active:scale-[0.98] dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
       >
         Read the docs
         {/* Animated Arrow Icon */}
@@ -15,7 +15,7 @@ export function CTAButtons() {
           viewBox="0 0 24 24"
           strokeWidth={2.5}
           stroke="currentColor"
-          className="h-3.5 w-3.5 text-zinc-400 transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:text-zinc-50 dark:text-zinc-500 dark:group-hover:text-zinc-950"
+          className="h-3.5 w-3.5 text-slate-400 transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:text-white dark:text-slate-500 dark:group-hover:text-slate-950"
         >
           <path
             strokeLinecap="round"
@@ -30,7 +30,7 @@ export function CTAButtons() {
         href="https://github.com/thatonevikash/create-next-mui"
         target="_blank"
         rel="noreferrer"
-        className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/60 px-5 py-2.5 font-medium text-slate-600 backdrop-blur-sm transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.98] dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:bg-slate-900 dark:hover:text-slate-200"
+        className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white/70 px-5 py-2.5 font-medium text-slate-700 backdrop-blur-sm transition-all duration-200 hover:border-slate-400 hover:bg-white hover:text-slate-950 active:scale-[0.98] dark:border-slate-700 dark:bg-slate-900/50 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:bg-slate-900 dark:hover:text-white"
       >
         View source
       </a>

@@ -1,8 +1,8 @@
 import { JetBrains_Mono, Inter } from "next/font/google";
+import Link from "next/link";
 
 import { Footer } from "@/components/footer";
 import { Section, SectionBody, SectionTitle } from "@/components/layout";
-
 import {
   CTAButtons,
   HeroBackground,
@@ -18,131 +18,177 @@ const mono = JetBrains_Mono({
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-body",
 });
 
-const STACK = ["Next.js 16", "React 19", "MUI 6–9", "TypeScript"];
+const STACK = ["Next.js App Router", "React 19", "Material UI", "TypeScript"];
 
 const FEATURES = [
   {
-    path: "/theme",
-    title: "Integrated MUI theme that actually works with SSR",
-    body: "MUI wired to the App Router with the Emotion cache set up correctly — no flash of unstyled content on first paint.",
+    number: "01",
+    title: "A dependable starting point",
+    body: "Begin with the App Router, Material UI, and a working theme setup already connected. Spend your first hour on product decisions, not plumbing.",
   },
   {
-    path: "/app",
-    title: "Built on the top of Next.js App Router",
-    body: "The App Router directory arrives empty of sample clutter, so the first thing you delete isn\u2019t everything.",
+    number: "02",
+    title: "A clean, intentional foundation",
+    body: "Generated projects stay small and familiar. You get the essentials without sample screens, hidden abstractions, or a template you have to undo.",
   },
   {
-    path: "/eslint",
-    title: "Pre-installed rules that enhances the developer experience ( DX )",
-    body: "Native eslint rules are not enough to build faster, so we have extended with supported eslint plugins.",
+    number: "03",
+    title: "Tools when your project needs them",
+    body: "Add supported features such as React Query, Zustand, or linting with one command, either during setup or as your application grows.",
   },
+];
+
+const STEPS = [
+  ["01", "Choose your setup", "Use the interactive flow or pass flags for a repeatable scaffold."],
+  ["02", "Start building", "Open the generated project with a theme, providers, and scripts ready to use."],
+  ["03", "Extend deliberately", "Install official feature integrations only when they solve a real need."],
 ];
 
 export default function Page() {
   return (
     <div
-      className={`${mono.variable} ${inter.variable} min-h-screen`}
+      className={`${mono.variable} ${inter.variable} min-h-screen bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-50`}
       style={{ fontFamily: "var(--font-body, sans-serif)" }}
     >
       <HeroBackground />
 
       <div className="relative z-10">
-        {/* hero */}
-        <main className="mx-auto max-w-5xl px-6 pb-24 pt-10 sm:pt-16">
-          <div className="grid gap-12 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">
+        <main className="mx-auto max-w-6xl px-6 pb-24 pt-10 sm:px-8 sm:pt-16">
+          <section className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.9fr)] lg:items-center lg:gap-16">
             <div>
-              <h1
-                className="mt-6 max-w-xl text-3xl font-bold leading-tight  sm:text-4xl"
+              <p
+                className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
               >
-                Next.js and MUI, wired together in one command.
+                The practical Next.js + MUI starter
+              </p>
+              <h1 className="mt-6 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-6xl sm:leading-[1.05] dark:text-white">
+                Start with the foundation. Build what matters.
               </h1>
-
-              <p className="mt-5 max-w-md text-[15px] leading-relaxed text-slate-700 dark:text-slate-400">
-                React 19, TypeScript, and a working theme provider — ready the
-                moment the install finishes. Nothing to copy-paste from a blog
-                post.
+              <p className="mt-6 max-w-xl text-base leading-7 text-slate-600 sm:text-lg dark:text-slate-300">
+                create-next-mui is a focused CLI for creating production-ready
+                Next.js App Router projects with Material UI already wired in.
+                It removes repetitive setup so your team can move from an idea
+                to a real interface faster.
               </p>
 
               <div className="mt-8">
                 <TerminalCommand />
               </div>
-
               <CTAButtons />
             </div>
 
             <div className="flex justify-center lg:justify-end">
-              <HeroImage />
+              <div className="rounded-3xl border border-slate-200/80 bg-white/70 p-3 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.45)] backdrop-blur dark:border-slate-800 dark:bg-slate-900/70">
+                <HeroImage />
+              </div>
+            </div>
+          </section>
+
+          <div className="mt-16 rounded-2xl border border-slate-200 bg-white/70 px-5 py-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60">
+            <div className="flex flex-wrap gap-x-8 gap-y-3 text-xs font-medium text-slate-600 dark:text-slate-300">
+              {STACK.map((item) => (
+                <span key={item} className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-500" />
+                  {item}
+                </span>
+              ))}
             </div>
           </div>
 
-          {/* stack row, dimension-line style */}
-          <ul className="mt-16 flex flex-wrap gap-x-8 gap-y-3 border-y border-[#1f3f5f] py-5 text-[12px] tracking-[0.08em] text-slate-800 dark:text-slate-200">
-            {STACK.map((item) => (
-              <li
-                key={item}
-                className="flex items-center gap-2"
-                style={{ fontFamily: "var(--font-mono, monospace)" }}
-              >
-                <span className="text-slate-500">|—</span>
-                {item}
-                <span className="text-slate-500">—|</span>
-              </li>
-            ))}
-          </ul>
-
-          {/* features */}
           <Section>
-            <SectionTitle title="Overview" />
+            <SectionTitle title="What it solves" />
+            <SectionBody>
+              <div className="max-w-2xl">
+                <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+                  The first setup should not be the hardest part of the project.
+                </h2>
+                <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">
+                  Combining Next.js and Material UI is straightforward once it is
+                  done, but the initial wiring is easy to repeat incorrectly.
+                  create-next-mui gives you a consistent, opinionated baseline
+                  that stays close to the tools you already know.
+                </p>
+              </div>
+            </SectionBody>
+          </Section>
 
-            <SectionBody className="grid gap-6 sm:grid-cols-3">
-              {FEATURES.map((f) => (
-                <div key={f.path} className="relative pl-5">
-                  <span className="absolute left-0 top-[7px] h-[7px] w-[7px] rounded-full border border-[#ffb454]" />
-                  <span className="absolute left-[3px] top-[14px] h-[calc(100%-14px)] w-px bg-[#1f3f5f]" />
-                  <p
-                    className="text-[13px] text-rose-500"
+          <Section>
+            <SectionTitle title="What you get" />
+            <SectionBody className="grid gap-4 md:grid-cols-3">
+              {FEATURES.map((feature) => (
+                <article
+                  key={feature.number}
+                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+                >
+                  <span
+                    className="text-xs font-semibold text-slate-400"
                     style={{ fontFamily: "var(--font-mono, monospace)" }}
                   >
-                    {f.path}
+                    {feature.number}
+                  </span>
+                  <h3 className="mt-8 text-lg font-semibold tracking-tight">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                    {feature.body}
                   </p>
-                  <h3 className="mt-2 text-[15px] font-medium ">{f.title}</h3>
-                  <p className="mt-2 text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-400">
-                    {f.body}
-                  </p>
-                </div>
+                </article>
               ))}
             </SectionBody>
           </Section>
 
           <Section>
-            <SectionTitle title="Why Next MUI ?" />
-
-            <SectionBody>
-              <p className="font-medium">
-                You&apos;ve ever experienced the rebuilding exact foundation in
-                NextJs with MUI.
-              </p>
-
-              <p className="mt-2 text-sm text-slate-700 dark:text-slate-400">
-                You got your answer!
-              </p>
-
-              <p className="mt-6 text-sm text-slate-700 dark:text-slate-400">
-                <span className="font-medium text-black dark:text-white">
-                  Next MUI
-                </span>
-                , solves the exact deficiency of development, also provides a
-                very smooth foundation so that you don&apos;t waste your initial
-                couple of minutes in writing the same stuff you&apos;re writting
-                most of the time.
-              </p>
+            <SectionTitle title="How it works" />
+            <SectionBody className="grid gap-6 border-y border-slate-200 py-6 sm:grid-cols-3 dark:border-slate-800">
+              {STEPS.map(([number, title, body]) => (
+                <div key={number} className="flex gap-4">
+                  <span
+                    className="text-xs font-semibold text-slate-400"
+                    style={{ fontFamily: "var(--font-mono, monospace)" }}
+                  >
+                    {number}
+                  </span>
+                  <div>
+                    <h3 className="font-semibold">{title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                      {body}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </SectionBody>
           </Section>
+
+          <section className="mt-24 rounded-3xl border border-slate-800 bg-slate-900 px-6 py-10 text-white sm:px-10 sm:py-12 dark:border-slate-700">
+            <p
+              className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+              style={{ fontFamily: "var(--font-mono, monospace)" }}
+            >
+              Ready when you are
+            </p>
+            <div className="mt-5 flex flex-col justify-between gap-8 sm:flex-row sm:items-end">
+              <div className="max-w-xl">
+                <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+                  A calm, capable place to begin.
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-slate-300">
+                  Read the quick start, run one command, and keep your attention
+                  on the product you are building.
+                </p>
+              </div>
+              <Link
+                href="/docs"
+                className="inline-flex shrink-0 items-center justify-center rounded-lg bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-200"
+              >
+                Read the quick start
+              </Link>
+            </div>
+          </section>
         </main>
 
         <Footer />

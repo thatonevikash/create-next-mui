@@ -44,21 +44,21 @@ export function TerminalCommand() {
   };
 
   return (
-    <div className="w-full max-w-[520px] rounded-[2px] border border-zinc-700 bg-slate-950 dark:bg-zinc-200 font-mono text-sm shadow-[0_0_0_1px_rgba(207,232,255,0.05)]">
+    <div className="w-full max-w-[520px] rounded-xl border border-slate-800 bg-slate-950 font-mono text-sm shadow-[0_16px_40px_-24px_rgba(15,23,42,0.7)] dark:border-slate-700">
       <div className="flex items-center justify-between border-b border-zinc-700 px-4 py-2">
         <span className="text-[11px] tracking-[0.18em] text-slate-400 dark:text-slate-500">
           TERMINAL
         </span>
         <button
           onClick={handleCopy}
-          className="text-[11px] tracking-[0.1em] text-slate-400 dark:text-slate-500 transition-colors hover:text-[#ffb454]"
+          className="text-[11px] tracking-[0.1em] text-slate-400 transition-colors hover:text-white"
           aria-label="Copy command"
         >
           {copied ? "COPIED" : "COPY"}
         </button>
       </div>
-      <div className="px-4 py-4 text-slate-100 dark:text-slate-800">
-        <span className="text-[#ffb454]">$</span> <span>{typed}</span>
+      <div className="px-4 py-4 text-slate-100">
+        <span className="text-slate-400">$</span> <span>{typed}</span>
         <span
           className={`ml-0.5 inline-block h-[1em] w-[6px] translate-y-[2px] bg-slate-100 dark:bg-slate-800 ${
             done ? "animate-[blink_1s_steps(1)_infinite]" : ""
