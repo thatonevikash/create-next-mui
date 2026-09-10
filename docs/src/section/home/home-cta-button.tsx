@@ -5,7 +5,7 @@ export function CTAButtons() {
     <div className="mt-6 flex flex-wrap items-center gap-4 text-[14px]">
       <Link
         href="/docs"
-        className="group relative inline-flex items-center justify-center gap-2 rounded-lg bg-site-primary px-5 py-2.5 font-semibold text-site-primary-foreground transition-all duration-200 ease-out hover:bg-site-active hover:shadow-md active:scale-[0.98]"
+        className="group relative inline-flex items-center justify-center gap-2 rounded-lg bg-site-primary px-5 py-2.5 font-semibold text-site-primary-foreground transition-all duration-200 ease-out hover:bg-site-primary hover:shadow-md active:scale-[0.98]"
       >
         Read the docs
         {/* Animated Arrow Icon */}
