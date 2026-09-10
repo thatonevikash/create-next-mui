@@ -43,9 +43,21 @@ const FEATURES = [
 ];
 
 const STEPS = [
-  ["01", "Choose your setup", "Use the interactive flow or pass flags for a repeatable scaffold."],
-  ["02", "Start building", "Open the generated project with a theme, providers, and scripts ready to use."],
-  ["03", "Extend deliberately", "Install official feature integrations only when they solve a real need."],
+  [
+    "01",
+    "Choose your setup",
+    "Use the interactive flow or pass flags for a repeatable scaffold.",
+  ],
+  [
+    "02",
+    "Start building",
+    "Open the generated project with a theme, providers, and scripts ready to use.",
+  ],
+  [
+    "03",
+    "Extend deliberately",
+    "Install official feature integrations only when they solve a real need.",
+  ],
 ];
 
 export default function Page() {
@@ -67,13 +79,12 @@ export default function Page() {
                 The practical Next.js + MUI starter
               </p>
               <h1 className="mt-6 max-w-3xl text-4xl font-semibold tracking-[-0.04em] sm:text-6xl sm:leading-[1.05]">
-                Start with the foundation. Build what matters.
+                Less setup. More momentum.
               </h1>
               <p className="mt-6 max-w-xl text-base leading-7 text-site-muted sm:text-lg">
-                create-next-mui is a focused CLI for creating production-ready
-                Next.js App Router projects with Material UI already wired in.
-                It removes repetitive setup so your team can move from an idea
-                to a real interface faster.
+                Create a production-minded App Router project with Material UI
+                already configured—so your energy goes into the product, not
+                boilerplate.
               </p>
 
               <div className="mt-8">
@@ -108,8 +119,8 @@ export default function Page() {
                   The first setup should not be the hardest part of the project.
                 </h2>
                 <p className="mt-4 text-base leading-7 text-site-muted">
-                  Combining Next.js and Material UI is straightforward once it is
-                  done, but the initial wiring is easy to repeat incorrectly.
+                  Combining Next.js and Material UI is straightforward once it
+                  is done, but the initial wiring is easy to repeat incorrectly.
                   create-next-mui gives you a consistent, opinionated baseline
                   that stays close to the tools you already know.
                 </p>
