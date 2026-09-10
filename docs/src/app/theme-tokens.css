@@ -1,0 +1,118 @@
+/*
+ * Slate is the only neutral primitive palette. Components must consume the
+ * semantic `site-*` utilities below; Fumadocs components consume `fd-*`.
+ * Do not use these primitives directly outside this token layer.
+ */
+:root {
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --slate-950: #020617;
+
+  --site-canvas: var(--slate-50);
+  --site-surface: #ffffff;
+  --site-surface-raised: #ffffff;
+  --site-surface-inverse: var(--slate-900);
+  --site-foreground: var(--slate-950);
+  --site-muted: var(--slate-600);
+  --site-subtle: var(--slate-500);
+  --site-border: var(--slate-200);
+  --site-hover: var(--slate-100);
+  --site-active: var(--slate-200);
+  --site-primary: var(--slate-900);
+  --site-primary-foreground: var(--slate-50);
+  --site-inverse-foreground: var(--slate-50);
+  --site-inverse-muted: var(--slate-300);
+  --site-ring: var(--slate-500);
+  --site-overlay: rgb(15 23 42 / 0.2);
+  --site-grid: rgb(100 116 139 / 0.12);
+  --site-terminal: var(--slate-950);
+  --site-terminal-border: var(--slate-800);
+  --site-terminal-divider: var(--slate-700);
+  --site-terminal-foreground: var(--slate-100);
+  --site-terminal-muted: var(--slate-400);
+}
+
+.dark {
+  --site-canvas: var(--slate-950);
+  --site-surface: var(--slate-900);
+  --site-surface-raised: var(--slate-900);
+  --site-surface-inverse: var(--slate-900);
+  --site-foreground: var(--slate-50);
+  --site-muted: var(--slate-300);
+  --site-subtle: var(--slate-400);
+  --site-border: var(--slate-800);
+  --site-hover: var(--slate-800);
+  --site-active: var(--slate-700);
+  --site-primary: var(--slate-50);
+  --site-primary-foreground: var(--slate-950);
+  --site-inverse-foreground: var(--slate-50);
+  --site-inverse-muted: var(--slate-300);
+  --site-ring: var(--slate-400);
+  --site-overlay: rgb(2 6 23 / 0.6);
+  --site-grid: rgb(148 163 184 / 0.08);
+  --site-terminal: var(--slate-950);
+  --site-terminal-border: var(--slate-700);
+  --site-terminal-divider: var(--slate-700);
+  --site-terminal-foreground: var(--slate-100);
+  --site-terminal-muted: var(--slate-400);
+}
+
+/* Fumadocs neutral UI is bridged to the same semantic token layer. */
+:root,
+.dark {
+  --color-fd-background: var(--site-canvas);
+  --color-fd-foreground: var(--site-foreground);
+  --color-fd-muted: var(--site-hover);
+  --color-fd-muted-foreground: var(--site-muted);
+  --color-fd-popover: var(--site-surface);
+  --color-fd-popover-foreground: var(--site-foreground);
+  --color-fd-card: var(--site-surface-raised);
+  --color-fd-card-foreground: var(--site-foreground);
+  --color-fd-border: var(--site-border);
+  --color-fd-primary: var(--site-primary);
+  --color-fd-primary-foreground: var(--site-primary-foreground);
+  --color-fd-secondary: var(--site-hover);
+  --color-fd-secondary-foreground: var(--site-foreground);
+  --color-fd-accent: var(--site-active);
+  --color-fd-accent-foreground: var(--site-foreground);
+  --color-fd-ring: var(--site-ring);
+  --color-fd-overlay: var(--site-overlay);
+}
+
+#nd-sidebar {
+  --color-fd-muted: var(--site-hover);
+  --color-fd-secondary: var(--site-active);
+  --color-fd-muted-foreground: var(--site-muted);
+}
+
+@theme inline {
+  --color-site-canvas: var(--site-canvas);
+  --color-site-surface: var(--site-surface);
+  --color-site-surface-raised: var(--site-surface-raised);
+  --color-site-surface-inverse: var(--site-surface-inverse);
+  --color-site-foreground: var(--site-foreground);
+  --color-site-muted: var(--site-muted);
+  --color-site-subtle: var(--site-subtle);
+  --color-site-border: var(--site-border);
+  --color-site-hover: var(--site-hover);
+  --color-site-active: var(--site-active);
+  --color-site-primary: var(--site-primary);
+  --color-site-primary-foreground: var(--site-primary-foreground);
+  --color-site-inverse-foreground: var(--site-inverse-foreground);
+  --color-site-inverse-muted: var(--site-inverse-muted);
+  --color-site-ring: var(--site-ring);
+  --color-site-grid: var(--site-grid);
+  --color-site-terminal: var(--site-terminal);
+  --color-site-terminal-border: var(--site-terminal-border);
+  --color-site-terminal-divider: var(--site-terminal-divider);
+  --color-site-terminal-foreground: var(--site-terminal-foreground);
+  --color-site-terminal-muted: var(--site-terminal-muted);
+}

@@ -51,7 +51,7 @@ const STEPS = [
 export default function Page() {
   return (
     <div
-      className={`${mono.variable} ${inter.variable} min-h-screen bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-50`}
+      className={`${mono.variable} ${inter.variable} min-h-screen bg-site-canvas text-site-foreground`}
       style={{ fontFamily: "var(--font-body, sans-serif)" }}
     >
       <HeroBackground />
@@ -61,15 +61,15 @@ export default function Page() {
           <section className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.9fr)] lg:items-center lg:gap-16">
             <div>
               <p
-                className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400"
+                className="text-xs font-semibold uppercase tracking-[0.22em] text-site-subtle"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
               >
                 The practical Next.js + MUI starter
               </p>
-              <h1 className="mt-6 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-6xl sm:leading-[1.05] dark:text-white">
+              <h1 className="mt-6 max-w-3xl text-4xl font-semibold tracking-[-0.04em] sm:text-6xl sm:leading-[1.05]">
                 Start with the foundation. Build what matters.
               </h1>
-              <p className="mt-6 max-w-xl text-base leading-7 text-slate-600 sm:text-lg dark:text-slate-300">
+              <p className="mt-6 max-w-xl text-base leading-7 text-site-muted sm:text-lg">
                 create-next-mui is a focused CLI for creating production-ready
                 Next.js App Router projects with Material UI already wired in.
                 It removes repetitive setup so your team can move from an idea
@@ -83,17 +83,17 @@ export default function Page() {
             </div>
 
             <div className="flex justify-center lg:justify-end">
-              <div className="rounded-3xl border border-slate-200/80 bg-white/70 p-3 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.45)] backdrop-blur dark:border-slate-800 dark:bg-slate-900/70">
+              <div className="rounded-3xl border border-site-border/80 bg-site-surface/70 p-3 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.45)] backdrop-blur">
                 <HeroImage />
               </div>
             </div>
           </section>
 
-          <div className="mt-16 rounded-2xl border border-slate-200 bg-white/70 px-5 py-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60">
-            <div className="flex flex-wrap gap-x-8 gap-y-3 text-xs font-medium text-slate-600 dark:text-slate-300">
+          <div className="mt-16 rounded-2xl border border-site-border bg-site-surface/70 px-5 py-4 shadow-sm backdrop-blur">
+            <div className="flex flex-wrap gap-x-8 gap-y-3 text-xs font-medium text-site-muted">
               {STACK.map((item) => (
                 <span key={item} className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-500" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-site-subtle" />
                   {item}
                 </span>
               ))}
@@ -107,7 +107,7 @@ export default function Page() {
                 <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
                   The first setup should not be the hardest part of the project.
                 </h2>
-                <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">
+                <p className="mt-4 text-base leading-7 text-site-muted">
                   Combining Next.js and Material UI is straightforward once it is
                   done, but the initial wiring is easy to repeat incorrectly.
                   create-next-mui gives you a consistent, opinionated baseline
@@ -123,10 +123,10 @@ export default function Page() {
               {FEATURES.map((feature) => (
                 <article
                   key={feature.number}
-                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+                  className="rounded-2xl border border-site-border bg-site-surface-raised p-6 shadow-sm"
                 >
                   <span
-                    className="text-xs font-semibold text-slate-400"
+                    className="text-xs font-semibold text-site-subtle"
                     style={{ fontFamily: "var(--font-mono, monospace)" }}
                   >
                     {feature.number}
@@ -134,7 +134,7 @@ export default function Page() {
                   <h3 className="mt-8 text-lg font-semibold tracking-tight">
                     {feature.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                  <p className="mt-3 text-sm leading-6 text-site-muted">
                     {feature.body}
                   </p>
                 </article>
@@ -144,18 +144,18 @@ export default function Page() {
 
           <Section>
             <SectionTitle title="How it works" />
-            <SectionBody className="grid gap-6 border-y border-slate-200 py-6 sm:grid-cols-3 dark:border-slate-800">
+            <SectionBody className="grid gap-6 border-y border-site-border py-6 sm:grid-cols-3">
               {STEPS.map(([number, title, body]) => (
                 <div key={number} className="flex gap-4">
                   <span
-                    className="text-xs font-semibold text-slate-400"
+                    className="text-xs font-semibold text-site-subtle"
                     style={{ fontFamily: "var(--font-mono, monospace)" }}
                   >
                     {number}
                   </span>
                   <div>
                     <h3 className="font-semibold">{title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                    <p className="mt-2 text-sm leading-6 text-site-muted">
                       {body}
                     </p>
                   </div>
@@ -164,9 +164,9 @@ export default function Page() {
             </SectionBody>
           </Section>
 
-          <section className="mt-24 rounded-3xl border border-slate-800 bg-slate-900 px-6 py-10 text-white sm:px-10 sm:py-12 dark:border-slate-700">
+          <section className="mt-24 rounded-3xl border border-site-terminal-border bg-site-surface-inverse px-6 py-10 text-site-inverse-foreground sm:px-10 sm:py-12">
             <p
-              className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+              className="text-xs font-semibold uppercase tracking-[0.2em] text-site-inverse-muted"
               style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
               Ready when you are
@@ -176,14 +176,14 @@ export default function Page() {
                 <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
                   A calm, capable place to begin.
                 </h2>
-                <p className="mt-3 text-sm leading-6 text-slate-300">
+                <p className="mt-3 text-sm leading-6 text-site-inverse-muted">
                   Read the quick start, run one command, and keep your attention
                   on the product you are building.
                 </p>
               </div>
               <Link
                 href="/docs"
-                className="inline-flex shrink-0 items-center justify-center rounded-lg bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-200"
+                className="inline-flex shrink-0 items-center justify-center rounded-lg bg-site-primary-foreground px-5 py-3 text-sm font-semibold text-site-primary transition-colors hover:bg-site-active"
               >
                 Read the quick start
               </Link>

@@ -44,23 +44,23 @@ export function TerminalCommand() {
   };
 
   return (
-    <div className="w-full max-w-[520px] rounded-xl border border-slate-800 bg-slate-950 font-mono text-sm shadow-[0_16px_40px_-24px_rgba(15,23,42,0.7)] dark:border-slate-700">
-      <div className="flex items-center justify-between border-b border-zinc-700 px-4 py-2">
-        <span className="text-[11px] tracking-[0.18em] text-slate-400 dark:text-slate-500">
+    <div className="w-full max-w-[520px] rounded-xl border border-site-terminal-border bg-site-terminal font-mono text-sm shadow-[0_16px_40px_-24px_rgba(15,23,42,0.7)]">
+      <div className="flex items-center justify-between border-b border-site-terminal-divider px-4 py-2">
+        <span className="text-[11px] tracking-[0.18em] text-site-terminal-muted">
           TERMINAL
         </span>
         <button
           onClick={handleCopy}
-          className="text-[11px] tracking-[0.1em] text-slate-400 transition-colors hover:text-white"
+          className="text-[11px] tracking-[0.1em] text-site-terminal-muted transition-colors hover:text-site-terminal-foreground"
           aria-label="Copy command"
         >
           {copied ? "COPIED" : "COPY"}
         </button>
       </div>
-      <div className="px-4 py-4 text-slate-100">
-        <span className="text-slate-400">$</span> <span>{typed}</span>
+      <div className="px-4 py-4 text-site-terminal-foreground">
+        <span className="text-site-terminal-muted">$</span> <span>{typed}</span>
         <span
-          className={`ml-0.5 inline-block h-[1em] w-[6px] translate-y-[2px] bg-slate-100 dark:bg-slate-800 ${
+          className={`ml-0.5 inline-block h-[1em] w-[6px] translate-y-[2px] bg-site-terminal-foreground ${
             done ? "animate-[blink_1s_steps(1)_infinite]" : ""
           }`}
         />

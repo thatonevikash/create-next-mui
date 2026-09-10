@@ -19,7 +19,7 @@ export function SectionTitle({
   return (
     <h2
       className={cn(
-        "text-lg tracking-[0.2em] uppercase text-slate-800 dark:text-slate-200",
+        "text-lg tracking-[0.2em] uppercase text-site-muted",
         className,
       )}
       style={{ fontFamily: "var(--font-mono, monospace)" }}
