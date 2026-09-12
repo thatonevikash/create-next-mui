@@ -158,7 +158,7 @@ npx create-next-mui add react-query
 npx create-next-mui add zustand
 ```
 
-### Oxlint
+### Oxlint + Oxfmt
 
 ```bash
 npx create-next-mui add oxlint
@@ -238,7 +238,7 @@ my-app/
 | `--js`                                | Use JavaScript template with `-y`     |
 | `npx create-next-mui add react-query` | Add React Query to current project    |
 | `npx create-next-mui add zustand`     | Add Zustand to current project        |
-| `npx create-next-mui add oxlint`      | Add Oxlint to current project         |
+| `npx create-next-mui add oxlint`      | Add Oxlint and Oxfmt to current project |
 | `npx create-next-mui add eslint`      | Add ESLint to current project         |
 
 ---
