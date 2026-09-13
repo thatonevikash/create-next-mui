@@ -8,7 +8,7 @@
     "order": "asc",
     "ignoreCase": true,
     "newlinesBetween": true,
-    "sortSideEffects": true,
+    "sortSideEffects": false,
     "internalPattern": ["@/"],
     "groups": [
       "style",
