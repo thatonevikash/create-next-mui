@@ -2,9 +2,12 @@
   "name": "oxlint",
   "scripts": {
     "lint": "oxlint",
-    "lint:fix": "oxlint --fix"
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
   "devDependencies": {
+    "oxfmt": "^0.67.0",
     "oxlint": "^1.76.0"
   },
   "files": [
@@ -16,6 +19,11 @@
     {
       "src": "source/.oxlintrc.json",
       "dest": ".oxlintrc.json",
+      "root": true
+    },
+    {
+      "src": "source/oxfmtrc.json",
+      "dest": ".oxfmtrc.json",
       "root": true
     }
   ]

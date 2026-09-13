@@ -1,0 +1,102 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "semi": true,
+  "tabWidth": 2,
+  "printWidth": 80,
+  "singleQuote": false,
+  "sortImports": {
+    "order": "asc",
+    "ignoreCase": true,
+    "newlinesBetween": true,
+    "sortSideEffects": false,
+    "internalPattern": ["@/"],
+    "groups": [
+      "style",
+      "react",
+      "next",
+      "mui",
+      "external",
+      "type",
+      "internal-types",
+      "internal-lib",
+      "internal-hooks",
+      "internal-actions",
+      "internal-components",
+      "internal-auth",
+      "internal-routes",
+      "internal-theme",
+      "internal",
+      ["parent", "sibling", "index"],
+      "icons",
+      "unknown"
+    ],
+    "customGroups": [
+      {
+        "groupName": "react",
+        "elementNamePattern": ["react"],
+        "modifiers": ["value"]
+      },
+      {
+        "groupName": "next",
+        "elementNamePattern": [
+          "next",
+          "next/**",
+          "next-*",
+          "next-*/**",
+          "cookies-next"
+        ],
+        "modifiers": ["value"]
+      },
+      {
+        "groupName": "mui",
+        "elementNamePattern": ["@mui/**", "@emotion/**"],
+        "modifiers": ["value"]
+      },
+      {
+        "groupName": "icons",
+        "elementNamePattern": ["lucide-react"],
+        "modifiers": ["value"]
+      },
+      {
+        "groupName": "internal-types",
+        "elementNamePattern": ["@/types/**"],
+        "modifiers": ["value"]
+      },
+      {
+        "groupName": "internal-lib",
+        "elementNamePattern": ["@/lib/**"],
+        "modifiers": ["value"]
+      },
+      {
+        "groupName": "internal-actions",
+        "elementNamePattern": ["@/actions/**"],
+        "modifiers": ["value"]
+      },
+      {
+        "groupName": "internal-hooks",
+        "elementNamePattern": ["@/hooks/**"],
+        "modifiers": ["value"]
+      },
+      {
+        "groupName": "internal-components",
+        "elementNamePattern": ["@/components/**"],
+        "modifiers": ["value"]
+      },
+      {
+        "groupName": "internal-auth",
+        "elementNamePattern": ["@/auth/**"],
+        "modifiers": ["value"]
+      },
+      {
+        "groupName": "internal-routes",
+        "elementNamePattern": ["@/routes/**"],
+        "modifiers": ["value"]
+      },
+      {
+        "groupName": "internal-theme",
+        "elementNamePattern": ["@/theme/**"],
+        "modifiers": ["value"]
+      }
+    ]
+  }
+}

@@ -28,16 +28,16 @@ After installing a feature, run `npm install`.
 
 | Feature | Category | What it adds |
 | --- | --- | --- |
-| `oxlint` | Linting | Oxlint config, dependency, and lint scripts |
+| `oxlint` | Linting and formatting | Oxlint and Oxfmt configs, dependencies, and scripts |
 | `eslint` | Linting | ESLint flat config, dependencies, and lint scripts |
 | `react-query` | Data fetching | TanStack Query provider, devtools, and layout wrapper |
 | `zustand` | State management | Zustand dependency and starter counter store |
 
 Interactive project creation shows React Query and Zustand as optional features. Linting is selected separately through the linter prompt.
 
-## Oxlint
+## Oxlint + Oxfmt
 
-Oxlint is the default linter for new projects and for `--yes` scaffolds.
+Oxlint with Oxfmt is the default linting and formatting setup for new projects and for `--yes` scaffolds.
 
 Install it in an existing project:
 
@@ -48,10 +48,14 @@ npx create-next-mui@latest add oxlint
 It adds:
 
 - `oxlint`
+- `oxfmt`
 - `.oxlintignore`
 - `.oxlintrc.json`
+- `.oxfmtrc.json`
 - `npm run lint`
 - `npm run lint:fix`
+- `npm run fmt`
+- `npm run fmt:check`
 
 ## ESLint
 
